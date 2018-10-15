@@ -1,0 +1,142 @@
+/* User module css start */
+.example-container1 > mat-form-field {
+	width: 100%;
+	margin-left: 0px;
+	/* padding: 0% 25% 0% 25% ; */
+  }
+  
+  .card1 {
+	  width: 50% !important; 
+	  margin-left: 25% !important;
+	  margin-right: 25% !important;
+  }
+   
+   
+  .unselectable{
+	background-color: #ddd;
+	cursor: not-allowed;
+  }
+   
+  .deletecolor{
+	background-color:#eacad0;
+  }
+  .inactive{
+	  background-color:#c6e0e4;
+  }
+   
+  
+  #button {
+	 
+	  position:relative !important;
+	  width:100px !important;
+	  height:30px !important;
+	  line-height:27px !important;
+	  display:block !important;
+	 
+	  margin:0px 0 0 10px !important;
+	  text-align:center !important;
+  }
+  #two {
+	  margin-top:-70px !important;
+	  margin-left: -80px !important;
+	  color: #333333 !important;
+	  height: 0 !important;
+	  overflow:hidden !important;
+	  left: 0 !important;
+	  line-height: 20px !important;
+	  position: absolute !important;
+	  top: 30px !important;
+	  -webkit-transition: all .3s ease !important; 
+	  -moz-transition: all .3s ease !important; 
+	  -ms-transition: all .3s ease !important; 
+	  -o-transition: all .3s ease !important; 
+	  transition: all .3s ease !important;
+	  text-align: center !important;
+  }
+  #button:hover > #two  { 
+	  display:block !important;
+	  left:0px !important;
+	  height:100px !important;
+  }
+  
+	 
+  #tfooter .float-sm-right{
+	margin-top: -50px !important;
+  }
+  
+  #loading {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: fixed;
+	display: block;
+	opacity: 0.7;
+	background-color: #fff;
+	z-index: 99;
+	text-align: center;
+  }
+  
+  #loading-image {
+   position: absolute;
+   top: 100px;
+   z-index: 100;
+  }
+  
+  .modal-body > p > span {
+	color: red
+  }
+  
+  .gridActionbtngap {
+	margin-left: 5px !important;
+  }
+  
+  .addUserBtn{
+	min-width: 50px !important;
+	height: 30px !important;
+	background: #43425d !important;
+	color: white !important;
+  }
+
+
+	.dataTables_info {
+		display: inline-block !important;
+		}
+		
+		.dataTables_paginate.paging_full_numbers {
+		display: inline-block !important;
+		float: right !important;
+		}
+		
+		table.dataTable thead .sorting,
+		table.dataTable thead .sorting_asc:after,
+		table.dataTable thead .sorting_desc,
+		table.dataTable thead .sorting_asc_disabled,
+		table.dataTable thead .sorting_desc_disabled { background: transparent; }
+		
+		.dataTables_wrapper { padding-bottom: 30px; }
+		
+		.dataTables_length { float: left; }
+		
+		.dataTables_filter label { margin-right: 5px; }
+  /* User module css end */
+
+  /* Set your password */
+  .example-container {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+ 
+  .lbl-error {
+    font-size: 12px !important;
+    color: red !important;
+  }
+ /* Set your password */
+ 
+ 
+ 

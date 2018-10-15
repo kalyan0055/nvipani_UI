@@ -1,0 +1,103 @@
+<!--  
+<div class="container">
+
+  <div class="row" style="margin-top: 50px">
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-5">
+      <div class="card text-center">
+        <div class="card-header  card bg-primary text-white">
+          Login Here
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-4 col-form-label labelalign">Username</label> 
+              <input type="text" class="form-control col-sm-8" id="emailaddress" required [(ngModel)]="model.username" name="email" 
+                #email="ngModel">
+              <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+                <div [hidden]="!email.hasError('required')">Email is required</div>
+                <div [hidden]="!email.hasError('pattern')">Email format should be
+                  <small>
+                    <b>joe@abcd.com</b>
+                  </small>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label for="staticEmail" class="col-sm-4 col-form-label labelalign">Password</label>
+
+              <input type="password" class="form-control col-sm-8" id="password" required [(ngModel)]="model.password" name="password"
+                #password="ngModel">
+              <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                Password is required
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <div class="col-sm-6">
+              </div>
+              <div class="col-sm-6">
+                <button type="submit" class="float-right btn btn-primary" [disabled]="!loginForm.form.valid">Submit</button>
+              </div>
+          </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+ <!--pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"-->
+
+ 
+
+<div class="container-fluid">
+  <div class="login-page row justify-content-md-center align-items-center text-center">
+    <div class=" col-sm-4 col-md-5 col-xs-12">
+      <div class="loginbox">
+    <img src="assets/utility_images/login-logo.png">
+    <h1>ADMIN CONSOLE</h1>
+    <form (ngSubmit)="onSubmit()" #myForm="ngForm">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Username" [(ngModel)]="model.username" name="email" #email="ngModel" pattern="^\w+([\.-]?\w+)*@(nvipani.com)" required>
+          <mat-error [hidden]="email.hasError('required')">Username is required</mat-error>
+          <mat-error [hidden]="email.hasError('pattern')">Enter Valid Username..Ex: example@nvipani.com </mat-error>
+        </mat-form-field> 
+           
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input  matInput placeholder="Password" minlength="8" maxlength="16" [type]="hide ? 'password' : 'text'" [(ngModel)]="model.password" name="password" #password="ngModel"  required>
+          <mat-icon style="cursor:pointer" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off':'visibility'}}</mat-icon>
+          <mat-error [hidden]="password.hasError('required')">Password is required</mat-error>
+          <mat-error [hidden]="password.hasError('minlength')">Password Should be 8 to 16 Chars.. </mat-error>
+        </mat-form-field> 
+          
+      </div>
+      <!--div class="row Rember">
+        <div class="col text-left">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="margin-top: 3px;">
+            <label class="form-check-label" for="inlineCheckbox1">Remember me</label>
+          </div>
+        </div>
+        <div class="col text-right">
+          <a href="#">Forgot Password</a>
+        </div>
+      </div-->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-block login-btn" [disabled]="!myForm.form.valid">login</button>
+      </div>
+    </form>
+  </div>
+  </div>
+
+  </div>
+</div>

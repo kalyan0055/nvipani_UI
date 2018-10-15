@@ -1,0 +1,47 @@
+/* body div.cdk-overlay-container {
+    z-index: 99999;
+  }
+  
+  .cdk-overlay-pane {
+    z-index: 99999 !important;
+  }
+  
+  .cdk-global-overlay-wrapper, .cdk-overlay-container {
+    z-index: 99999 !important;
+  }
+  
+  .mat-select-menu-container {
+    z-index: 99999 !important;
+  }
+  
+  .mat-dialog-container {
+    z-index: 99999;
+  }
+  
+  .mat-select-panel {
+    z-index: 99999 !important;
+  }
+  
+  .mat-primary {
+    z-index: 99999 !important;
+  } */
+/* 
+  ::ng-deep .mat-select-content{
+    width:2000px;
+    background-color: red;
+    font-size: 10px; 
+    z-index: 99999 !important;  
+} */
+
+
+/* .cdk-overlay-pane{
+    z-index: 99999 !important; 
+} */
+/* .mat-select-panel{ 
+    z-index: 99999 !important; 
+
+} */
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+    z-index: 99999 !important;
+ }

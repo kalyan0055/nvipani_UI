@@ -1,0 +1,59 @@
+<div id="loading" *ngIf="loading1">
+    <!-- <img  src="ssets/utility_images/spinner.gif" alt="Loading..." /> -->
+    <i id="loading-image" class="fa fa-spinner fa-spin fa-2x"></i>
+  </div>
+<div class="container test" >
+
+  <div class="row" style="margin-top: 50px">
+    <div class="col-md-4">
+
+    </div>
+    <div class="col-md-4">
+      <div class="row">&nbsp;</div>
+      <div class="row">&nbsp;</div>
+
+      <div class="card text-center">
+        <div class="card-header  card bg-primary text-white">
+            Set Your Password
+        </div>
+        <div class="card-body">
+            <form [formGroup]="registrationFormGroup" (ngSubmit)="onSubmit()">
+                <div [formGroup]="passwordFormGroup">
+                 <div class="col-md-12 example-container">
+                  <mat-form-field>
+                        <input matInput placeholder="Password" (keyup)="test($event)" [type]="hide ? 'password' : 'text'" class="col-md-12" required id="password"
+                          formControlName="password" name="password">
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' :'visibility' }}</mat-icon>
+                      </mat-form-field>
+                      <!-- <label class="lbl-error" *ngIf="password.errors?.minlength">Password length should be greater than 7 characters</label> -->
+                      <!-- <label class="lbl-error" *ngIf="password.errors?.pattern">Password must contain one letter,number,special char</label>
+                      ,Validators.pattern('^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$') -->
+                   
+                      <mat-form-field>
+                          <input matInput placeholder="Confirm Password" [type]="hide ? 'password' : 'text'" class="col-md-12" required id="repeatPassword"
+                          name="repeatPassword" formControlName="repeatPassword">
+                          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' :'visibility' }}</mat-icon>
+                        </mat-form-field>    
+                        <label class="lbl-error" *ngIf="passwordFormGroup.errors?.doesMatchPassword">Password does not match</label>
+                        <label class="lbl-error" *ngIf="this.length > 0  && passwordFormGroup.errors?.passwordContain">Password must have numbers,lower & upper case letters
+                           and at least 8 characters</label>
+                 
+                      </div>
+                   
+                </div>
+           
+                <div class="form-group">
+                    <button class="form-control btn btn-primary float-right" type="submit" [disabled]="!registrationFormGroup.valid">Complete Registration</button>
+                  </div>
+                           
+                
+              </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+
+    </div>
+  </div>
+</div>
+ 

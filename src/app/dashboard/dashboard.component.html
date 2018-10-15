@@ -1,0 +1,13 @@
+
+ 
+
+<div class="wrapper">
+<app-sidenav style="background: #43425d;" (selectedpage)="selected($event)"></app-sidenav>
+<div id="content">
+<app-header></app-header>
+<app-users *ngIf="selected_page =='users' || selected_page == 'dashbaord'"></app-users>
+<!-- <app-comingsoon *ngIf="selected_page == 'comingsoon' "></app-comingsoon> -->
+<app-ui-settings *ngIf="selected_page == 'settings'"></app-ui-settings>
+ </div>
+</div>
+ 

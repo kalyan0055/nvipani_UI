@@ -1,0 +1,44 @@
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+            <a class="navbar-brand" href="#">Welcome To Nvipani</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div id="navbarNavDropdown" class="navbar-collapse collapse">
+                <ul class="navbar-nav mr-auto">
+                    
+    
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Hi ...{{headername |titlecase}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" [routerLink]="['/profile']">Profile</a> 
+                            <a class="dropdown-item" (click)="logout()">Logout</a>
+                            
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav> -->
+        <div class="row no-gutters ITop-bar align-items-center">
+            <div class="col-2 d-block d-sm-none"><button type="button" id="sidebarCollapse" class="btn btn-info">
+                <i class="fas fa-align-left"></i>
+          
+              </button></div>
+            <div class="col">
+              <i class="ITB-icons Search-icon"></i>
+              <input type="" name="" class="search-input" placeholder="Start addressing the user query with their userid or phone number">
+          
+            </div>
+            <div class="col d-flex align-items-center justify-content-end ITB-RightSec">
+              <a><i class="ITB-icons email-icon"></i></a>
+              <a><span class="n-dot"></span><i class="ITB-icons bell-icon"></i></a>
+              <a style="cursor:pointer" pTooltip ="Profile" routerLink="/profile"  tooltipPosition="bottom"  class="d-none d-sm-block">{{(usertype === 'Admin')?'Super Admin':(usertype === 'Adminuser')?'Admin':(usertype === 'User')?'User':''}}<i class="ITB-icons dnarrow-icon"></i> </a>
+              <a style="cursor:pointer" pTooltip ="Logout" tooltipPosition="bottom" (click)="logout()" ><span class="PP" style="background-image: url(images/pp-img.jpg);"></span></a>    
+            </div>
+          </div>
+       
+          

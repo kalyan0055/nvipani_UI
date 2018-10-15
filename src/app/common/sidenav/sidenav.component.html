@@ -1,0 +1,55 @@
+<!--  
+  <div class="col-md-2 nvipani" style="background-color: #c0daf3!important;min-height: 600px">
+    <mat-nav-list class="space">
+      
+            <a mat-list-item [routerLink]="['/user']"> 
+             {{(usertype === 'Admin')?'Admin Users':'Users'}}
+            </a> 
+            <a mat-list-item  [routerLink]="['/uom']">Unit of Measures</a>
+            <a mat-list-item [routerLink]="['/hsn']" >HSN Codes</a>
+            <a mat-list-item [routerLink]="['/taxgroups']" >Tax Groups</a>
+            <a mat-list-item [routerLink]="['/category']">Main Categories</a>
+            <a mat-list-item [routerLink]="['/sub-category']">Sub Categories-1</a>
+            <a mat-list-item [routerLink]="['/category']">Main Categories</a>
+              
+     </mat-nav-list> 
+  </div> -->
+  <nav id="sidebar">
+      <div class="sidebar-header text-center">
+          <img src="assets/utility_images/login-logo.png" height="60px">
+      </div>
+
+      <ul class="list-unstyled components">
+       
+          
+          <li class="active">
+              <!-- <a routerLink="/users"> <i class="S-icons"></i> Dashboard</a> -->
+              <a (click)="sidebarchage('users')"> <i class="S-icons"></i> Dashboard</a>
+
+          </li>
+          
+          <li>
+              <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-catalog"></i> Product catalog</a>
+          </li>
+          <li>
+              <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-products"></i> Products</a>
+          </li>
+          <li>
+              <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-customers"></i> Customers</a>
+          </li>
+          <li>
+              <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-orders"></i> Orders</a>
+          </li>
+          <li>
+              <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-offers"></i> Offers</a>
+          </li>
+          <li>
+              <!-- <a (click)="sidebarchage('settings')"> <i class="S-icons icon-settings"></i> Settings</a> -->
+              <a routerLink="/settings"> <i class="S-icons icon-settings"></i> Settings</a>
+         
+            </li>
+          
+      </ul>
+
+      
+  </nav>

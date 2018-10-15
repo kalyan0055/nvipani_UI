@@ -1,0 +1,183 @@
+<!-- <div class="wrapper">
+  <app-sidenav style="background: #43425d;"></app-sidenav>
+  <div id="content">
+    <app-header></app-header> -->
+    <div class="Ipage-content">
+      <div class="IC-box">
+        <div class="ICB-Headbar no-gutters row d-flex align-items-center">
+          <div class="col-9">
+            <img src="assets/utility_images/user.png" style="padding-right: 10px;"> TABLE SETTINGS
+          </div>
+          <div class="col-3 text-right">
+            <button (click)="resetdata();" tooltipPosition="top" pTooltip="Add Settings" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
+              class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".add_settings"
+              data-backdrop="static" data-keyboard="false">
+              <i class="fas fa-user"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table datatable [dtOptions]="dtOptions1" class="display">
+            <thead>
+              <tr>
+                <th>SNo</th>
+                <th>Table Name</th>
+                <th>Records Per Page</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="tableData?.length != 0">
+              <tr *ngFor="let t of tableData">
+                <td>{{ t.sno }}</td>
+                <td>{{ t.ui_table }}</td>
+                <td>{{ t.records_per_page }}</td>
+                <td valign="middle">
+                  <a (click)="update(t)" data-toggle="modal" data-target=".add_settings" data-backdrop="static"
+                    data-keyboard="false" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
+                  <a (click)="delete_Data=t;" data-toggle="modal" data-target=".delete" data-backdrop="static"
+                    data-keyboard="false" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="tableData?.length == 0">
+              <tr>
+                <td colspan="4" class="no-data-available">No data!</td>
+              </tr>
+            <tbody>
+          </table>
+        </div>
+
+
+
+
+
+
+      </div>
+    </div>
+ 
+
+<div class="modal fade add_settings" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="!update_data" class="modal-title" id="exampleModalLabel">Add </h5>
+        <h5 *ngIf="update_data" class="modal-title" id="exampleModalLabel">Update</h5>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="">
+          <div class="card">
+            <div class="card-header">
+              <span *ngIf="!update_data">Add Settings</span>
+              <span *ngIf="update_data">Update Settings</span>
+            </div>
+            <div class="card-body">
+              <form method="POST" [formGroup]="ui_settings">
+                <div class="row">
+                  <div class="col-md-4 offset-md-3">
+                    <!-- <mat-form-field>
+                      <input matInput placeholder="Table Name" formControlName="ui_table" required>
+                       <mat-error *ngIf="ui_settings.controls['ui_table'].hasError('required')">this field is required</mat-error>  
+                    </mat-form-field> -->
+
+                    <mat-form-field>
+                      <mat-select placeholder="Select" formControlName="ui_table" required>
+                        <mat-option value="USERS">Users Table</mat-option>
+                        <mat-option value="HSNCODES">HSN CODE</mat-option>
+                        <mat-option value="UOM">Unit Of Measurements</mat-option>
+                        <mat-option value="TAXGROUPS">Tax Groups</mat-option>
+
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput (blur)="myFocusVar = false" (focus)="myFocusVar = true" placeholder="Rows Per Page"
+                        pattern="^([1-9]{1}[0-9]{0,7})+((,[1-9]{1}[0-9]{0,7}){0,1})+$" formControlName="records_per_page"
+                        required>
+                      <mat-error *ngIf="!myFocusVar">Ex: 10,20,50,60</mat-error>
+
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-7">
+                    <button type="submit" data-dismiss="modal" (click)="saveSettings()" class="float-right btn btn-primary"
+                      [disabled]="!ui_settings.valid">Save</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="delete_Data">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are Sure you want to delete this ...
+          <span>{{delete_Data.ui_table }}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+        <!-- <button  *ngIf="del_pop_msg === 'Restore'" type="button" (click)="restore(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+        -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <form method="POST" [formGroup]="addmore">
+    <a (click)="addlink()">Add More</a>
+    <div formArrayName="addmorefields">
+      <div class="" *ngFor="let ad of addmore.controls['addmorefields'].controls; let p=index;">
+
+        <div [formGroupName]="p">
+          <div class="row">
+            <div class="col-md-12" style="display: inherit;">
+              <div class="col-md-4">
+                <label>Donation - {{p+1}}</label>
+                <input type="text" class="form-control" formControlName="donation">
+              </div>
+              <div class="col-md-4">
+                <label>SUM</label>
+                <input type="number" class="form-control" formControlName="sum">
+              </div>
+              <div class="col-md-4">
+                <a (click)="delete_addmore(p)">Remove</a>
+                <a (click)="save()">SAVE</a>
+                <a (click)="updateform()">UPDATE</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form> -->

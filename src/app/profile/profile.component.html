@@ -1,0 +1,199 @@
+<div class="wrapper">
+  <app-sidenav style="background: #43425d;"></app-sidenav>
+  <div id="content">
+  <app-header></app-header>
+
+<!-- <div class="row">
+  <app-sidenav style="background-color: #bcdefb;"></app-sidenav> -->
+  <!--div class="col-md-10 main"-->
+  <div class="Ipage-content">
+    <div class="IC-box">
+       
+       
+      <div class="table-responsive">
+       
+          <div class="card">
+              <div class="card-header ">Profile
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3" *ngIf="nopic">
+                    <mat-card class="example-card">
+                      <!-- <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title></mat-card-title>     
+                      </mat-card-header> -->
+                      <img mat-card-image src="{{url}}{{profileImageURL}}" style="height:166px">
+                      <mat-card-content>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <button mat-button (click)="nopic = !nopic">Change Photo</button>
+        
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                  <div class="col-md-3" *ngIf="!nopic">
+                    <mat-card class="example-card" style="padding-bottom: 0px;text-align: center;">
+                      <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title></mat-card-title>
+                      </mat-card-header>
+                      <img mat-card-image *ngIf="imagepriview" [src]="imagepriview" alt="Photo of a Shiba Inu">
+                      <mat-card-content>
+                      </mat-card-content>
+                      <mat-card-actions>
+                        <form method="post" enctype="multipart/form-data" [formGroup]="profile_img">
+                          <button mat-stroked-button type="button" *ngIf="imagepriview =='' || !imagepriview"  (click)="filepicker.click()">Pic Photo</button>
+                          <button mat-button *ngIf="imagepriview !='' && imagepriview" (click)="fileupload()">Save</button>
+                          <button mat-button *ngIf="imagepriview !='' && imagepriview"(click)="fileupload_reset()">Cancel</button>
+                          <input type="file" id="avatar" name="image" formControlName="file" #filepicker accept="image/png, image/jpeg" (change)="onChange($event)"
+                          />
+        
+                        </form>
+        
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                  <!--Profile View Page-->
+                  <div class="col-md-9" *ngIf="pview">
+                    <mat-card class="example-card">
+                      <mat-card-header>
+                        <mat-card-title class="docs-example-viewer-title">
+                          <mat-icon><i class="fas fa-user"></i>
+                          </mat-icon> Profile
+                        </mat-card-title>
+                      </mat-card-header>
+                      <button mat-raised-button class="float-right fmat-icon-button" (click)="pview = !pview; update()" style="margin-top:-50px; background: #43425D;"
+                        color="accent" >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <mat-card-content>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">First Name:</label>
+                                <div class="col-md-7 controls">{{(userdata.firstName)?userdata.firstName:'--'}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">Middle Name:</label>
+                                <div class="col-md-7">{{(userdata.middleName)?userdata.middleName:'--'}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">Last Name:</label>
+                                <div class="col-md-7 controls">{{(userdata.lastName)?userdata.lastName:'--'}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">Display Name:</label>
+                                <div class="col-md-7 controls">{{(userdata.displayName)?userdata.displayName:'--'}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">Email:</label>
+                                <div class="col-md-7 controls">{{email}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="row">
+                                <label class="col-md-5 control-label">Mobile:</label>
+                                <div class="col-md-7 controls">{{(userdata.mobile)?userdata.mobile:'--'}}</div>
+                                <!-- col-sm-10 -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </mat-card-content>
+                      <mat-card-actions>
+        
+                      </mat-card-actions>
+                    </mat-card>
+        
+                  </div>
+                  <!--End Profile View Page-->
+        
+                  <!--UpdatE Profile Info page-->
+                  <div class="col-md-9" *ngIf="!pview">
+                    <mat-card class="example-card">
+                      <mat-card-header>
+                        <mat-card-title class="docs-example-viewer-title">
+                          <mat-icon><i class="fas fa-user"></i>
+                          </mat-icon> Profile
+                        </mat-card-title>
+                        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+                      </mat-card-header>
+                      <button mat-raised-button class="float-right fmat-icon-button" (click)="pview = !pview" style="margin-top:-50px;background: #43425D" color="accent">
+                        <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <mat-card-content>
+                        <div class="col-md-12">
+                          <form method="POST" [formGroup]="profile">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                  <input matInput placeholder="First Name" formControlName="firstName" required>
+                                  <mat-error *ngIf="profile.controls['firstName'].hasError('required')">firstName is required</mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                  <input matInput placeholder="Middle Name" formControlName="middleName" >
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                  <input matInput placeholder="Last Name" formControlName="lastName" >
+                                  <!-- <mat-error *ngIf="!profile.controls['lastName'].valid || !profile.controls['lastName'].pristine">
+                                    <mat-error *ngIf="profile.controls['lastName'].hasError('required')">lastName is required</mat-error>
+                                  </mat-error> -->
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field>
+                                  <input matInput placeholder="Display Name"   type="text" formControlName="displayName">
+                                  <!-- <mat-error *ngIf="profile.controls['displayName'].hasError('required')"> Display Name is required</mat-error> -->
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-3">
+                                <mat-form-field>
+                                  <input matInput placeholder="mobile" minlength="10" maxlength="10" type="text" formControlName="mobile" required pattern="[0-9]*">
+                                  <mat-error *ngIf="profile.controls['mobile'].hasError('required')"> Mobile is required</mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                              <div class="col-md-7">
+                                <button type="submit" (click)="updatePrfile()" class="float-right btn btn-primary" [disabled]="!profile.valid">Save</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </mat-card-content>
+                      <mat-card-actions>
+                      </mat-card-actions>
+                    </mat-card>
+                  </div>
+                  <!--End UpdatE Profile Info page-->
+                </div>
+              </div>
+            </div>
+        
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>  
+  <!-- </div>
+</div> -->

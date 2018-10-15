@@ -1,0 +1,9 @@
+/*
+ * Import required theme for Material2
+ */
+ @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+ 
+ /*
+  * Actual Sticky Footer Styles
+  */
+ 
