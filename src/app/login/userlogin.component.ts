@@ -45,7 +45,7 @@ export class UserloginComponent implements OnInit {
         this.router.navigate(['dashboard']);
       }
       else {
-        this.toaster.error(res.message, 'Failed');
+        this.toaster.error(res.message, 'Failed...');
       }
     })
   }
