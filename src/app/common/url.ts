@@ -3,9 +3,9 @@ export class Url {
     public static API = { 
         //USER Registration and Login
         SIGNIN:environment.url+'auth/signin',
-        CONF_REGISTRATION:environment.url+'user/sendpresignupotp',
+        CONF_REGISTRATION:environment.url+'user/userRegistration',
         RESET_PASSWORD: environment.url + 'auth/reset',
-        regViaemail :environment.url + 'user/sendpresignupotp',
+        regViaemail :environment.url + 'user/userRegistration',
         SENDPASSWORDLINK :environment.url + 'users/resetPasswordRequest',
         
         
@@ -31,7 +31,7 @@ export class Url {
 
 
         //HSN CODES
-        HSN_CODES: environment.url + 'hsncodes',
+        HSN_CODES: environment.url + 'hsncodeslist',
         addHSN: environment.url + 'hsncodes',
         UPDATEHSN: environment.url + 'hsnupdate',
         DELETE_HSN : environment.url + 'hsndelete',

@@ -20,43 +20,45 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.selected_page,'initial data');
-    
+    console.log(this.selected_page, 'initial data');
+    this.getUI_Settings();
     console.log('NoOnInit called ', this.count++);
-    this.userIdle.startWatching();
+    // this.userIdle.startWatching();
 
-    // Start watching when user idle is starting.
-    this.userIdle.onTimerStart().subscribe(count =>
-      console.log(count)
+    // // Start watching when user idle is starting.
+    // this.userIdle.onTimerStart().subscribe(count =>
+    //   console.log(count)
 
-    );
+    // );
 
-    // Start watch when time is up.
-    this.userIdle.onTimeout().subscribe(() => {
-      console.log('logout');
+    // // Start watch when time is up.
+    // this.userIdle.onTimeout().subscribe(() => {
+    //   console.log('logout');
 
-      this.router.navigate(['login']);
-      this.stopWatching();
-      this.stop();
+    //   this.router.navigate(['login']);
+    //   this.stopWatching();
+    //   this.stop();
 
-    }
-    );
+    // }
+    // );
 
 
 
-    this.dateOfHarvest = new Date();
-    console.log(this.dateOfHarvest, 'before append');
+    // this.dateOfHarvest = new Date();
+    // console.log(this.dateOfHarvest, 'before append');
 
-    let Wklydateofvisit = new Date().toISOString();
-    console.log(Wklydateofvisit);
+    // let Wklydateofvisit = new Date().toISOString();
+    // console.log(Wklydateofvisit);
 
-    this.dateOfHarvest = new Date(Wklydateofvisit);
-    console.log(this.dateOfHarvest, 'after append');
-
+    // this.dateOfHarvest = new Date(Wklydateofvisit);
+    // console.log(this.dateOfHarvest, 'after append');
+    // this.getUI_Settings();
   }
 
   getUI_Settings() {
     this.US.getUI_Settings().subscribe((res) => {
+      console.log(res.data);
+      
       let data = res.data.filter(item => item.deleted === false);
       let s = _.where(data, { ui_table: "USERS" });
       if (s.length > 0) {
@@ -96,7 +98,7 @@ export class DashboardComponent implements OnInit {
     console.log('after click', value);
     this.selected_page = value;
     console.log(this.selected_page);
-    
-    this.router.navigate(['value'])
+
+    // this.router.navigate(['value'])
   }
 }

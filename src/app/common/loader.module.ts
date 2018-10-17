@@ -6,6 +6,7 @@ import { CommonCommonModule } from './common.module';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { UsersComponent } from '../adminusers/users.component';
 import { UiSettingsComponent } from '../ui-settings/ui-settings.component';
+import { HsncodesComponent } from '../hsncodes/hsncodes.component';
 
 @NgModule({
   imports: [
@@ -17,14 +18,18 @@ import { UiSettingsComponent } from '../ui-settings/ui-settings.component';
     SidenavComponent,
     DashboardComponent,
     UsersComponent,
-    UiSettingsComponent],
+    UiSettingsComponent,
+    HsncodesComponent,
+    ],
   exports: [
     HeaderComponent,
     SidenavComponent,
     DashboardComponent,
     UsersComponent,
     UiSettingsComponent,
-    CommonCommonModule
+    CommonCommonModule,
+    HsncodesComponent,
+    
   ]
 })
 export class LoaderModule { }

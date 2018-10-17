@@ -14,6 +14,6 @@ import { CommonCommonModule } from '../common/common.module';
     CommonCommonModule
   ],
   exports:[LoaderModule,CommonCommonModule],
-  declarations: [UiSettingsComponent ]
+  // declarations: [UiSettingsComponent ]
 })
 export class SettingsModule { }

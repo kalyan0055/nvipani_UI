@@ -15,11 +15,12 @@ export class HeaderComponent implements OnInit {
   public datatable = [];
   @Output() selectedpage=new EventEmitter();
   constructor(public US:UserserviceService,private CS:CommonService, public router:Router,public USS:UsersService) {
-    this.getUI_Settings();
+  
    }
   
   
   ngOnInit() {
+    this.getUI_Settings();
     console.log(this.US.userdata);
     console.log(this.US.userdata.username);
     this.usertype = localStorage.getItem('usertype');

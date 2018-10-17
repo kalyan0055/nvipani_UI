@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, Injector } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy,ViewChild, Injector } from '@angular/core';
 import {
   FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
   Validators, AbstractControl, ValidatorFn
@@ -16,6 +16,7 @@ import swal from 'sweetalert2';
 import * as jquery from 'jquery';
 import * as _ from 'underscore';
 import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
 declare var $: any;
 
 import { AllServices } from '../allservices';
@@ -116,6 +117,10 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   pagelength;
 
   filterQuery1: number;
+
+  @ViewChild(DataTableDirective)
+  datatableElement: DataTableDirective;
+ 
   constructor(public fb: FormBuilder, injector: Injector) {
     super(injector);
     this.usertype = localStorage.getItem('usertype');
@@ -135,7 +140,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     //     this.pagelength.push(element)
     //   }
     // }
-
+     
   }
 
 
@@ -210,7 +215,11 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     this.dtTrigger.unsubscribe();
   }
 
-
+  reloadTable(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
+  }
   // getNewUsers() {
   //   this.loading = true;
   //   this.US.getNewUsers(null).subscribe((res) => {
@@ -255,7 +264,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       if (res) {
         this.loading1 = false;
         this.update_status = !this.update_status;
-        this.ngOnInit();
+        this.reloadTable()
         this.updated_by = '';
         this.toastr.success('User Updated Successfully', 'success')
       } else {
@@ -316,7 +325,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       if (res.status) {
         this.loading1 = false;
         this.toastr.success('Registration Requst Sent to -' + `${this.REG_FORM1.value.username}`, 'Thank you!');
-        this.ngOnInit();
+        this.reloadTable()
         this.nvipani = false;
       } else {
         this.loading1 = false;
@@ -333,7 +342,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       if (res.status) {
         this.loading1 = false;
         this.toastr.error('Successfully Deleted!', 'Thank you!');
-        this.ngOnInit();
+        this.reloadTable()
         this.delete_Data = null;
       } else {
         this.loading1 = false;
@@ -357,7 +366,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       if (res.status) {
         this.loading1 = false;
         this.toastr.success('Successfully Restored!', 'Thank you!');
-        this.ngOnInit();
+        this.reloadTable()
         this.delete_Data = null;
       } else {
         this.loading1 = false;
@@ -375,7 +384,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         if (res.status) {
           this.loading1 = false;
           this.toastr.success('Successfully ' + `${this.type}d`, 'Thank you!');
-          this.ngOnInit();
+          this.reloadTable()
           this.disable_Data = '';
         } else {
           this.loading1 = false;

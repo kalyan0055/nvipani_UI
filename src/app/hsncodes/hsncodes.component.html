@@ -1,0 +1,363 @@
+<!-- <app-header></app-header>
+<div class="row">
+  <app-sidenav style="background-color: #bcdefb;"></app-sidenav>
+  <div class="col-md-10 main">
+    <div class="" [ngClass]="(nvipani)?'card1':'card'">
+      <div class="card">
+        <div class="card-header ">
+          <span> List of HSN Codes </span>
+          <button mat-raised-button class="float-right btn btn-sm" data-toggle="modal" data-target=".uom_add" color="accent"
+            *ngIf="!nvipani">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-user"></i>
+          </button>
+          <button mat-raised-button (click)="back()" class="float-right" color="accent" *ngIf="nvipani">Back</button>
+        </div>
+        <div class="card-body">
+          <div class="row ">
+            <div class="col-md-3 float-right">
+              <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="fa fa-search"></i>
+                  </span>
+                </div>
+                <input class="form-control-sm form-control" placeholder="Search" type="text" [(ngModel)]="filterQuery"
+                  autocomplete="off" name="filter">
+              </div>
+
+            </div>
+          </div>
+          <table class="table table-sm table-inverse table-bordered" [mfData]="tabaledata1 | dataFilter : filterQuery"
+            #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+
+            <thead>
+              <tr>
+                <th style="width: 5%">
+                  <mfDefaultSorter by="name">S.No
+
+
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="name">Name </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="description">Description </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="hsncode">HSN CODE </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="chaptercode">Chapter Code</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="quantityType">Name </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="disabled">Disabled </mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                  <mfDefaultSorter by="Description">Options </mfDefaultSorter>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody *ngFor="let t of mf.data; let i=index; let k=index;">
+              <tr [ngClass]="{'deletecolor':t.deleted}">
+                <th scope="row">{{tabaledata1.indexOf(t)+1}}</th>
+                <td>{{t.name}}</td>
+                <td>{{t.description}}</td>
+                <td>{{t.hsncode}}</td>
+                <td>{{t.chaptercode}}</td>
+                <td>{{t.name}}</td>
+                <td>{{t.disabled}}</td>
+                <td>
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
+                    data-target=".delete" class="btn btn-sm btn-success">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a [ngClass]="{'unselectable':t.disabled}" (click)="editHSN(t)" style="margin-right: 5px; margin-left: 5px;"
+                    data-toggle="modal" data-target=".uom_add" class="btn btn-sm btn-success">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
+                    data-target=".delete" class="btn btn-sm btn-danger">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+              </tr>
+
+            </tbody>
+            <tbody *ngIf="loading">
+              <tr>
+                <td class="text-center" colspan="13">
+                  <i class="fa fa-spinner fa-spin fa-2x"></i>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot *ngIf="mf.data.length != 0 ">
+              <tr>
+                <td colspan="10">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[10,100,200]"></mfBootstrapPaginator>
+                  <mat-paginator (page)="onChnagepage($event)" [length]="totalposts" [pageSizeOptions]="[10,100,150,200]"
+                    [pageSize]="pageSize"></mat-paginator>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="Ipage-content">
+  <div class="IC-box">
+    <div class="ICB-Headbar no-gutters row d-flex align-items-center">
+      <div class="col-9">
+        <img src="assets/utility_images/user.png" style="padding-right: 10px;"> TABLE SETTINGS
+      </div>
+      <div class="col-3 text-right">
+        <button (click)="resetdata();" tooltipPosition="top" pTooltip="Add Settings" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
+          class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".uom_add" data-backdrop="static"
+          data-keyboard="false">
+          <i class="fas fa-user"></i> Add
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table datatable [dtOptions]="dtOptions1" class="display">
+        <thead>
+          <tr>
+            <!-- <th>
+              S.NO
+            </th> -->
+            <th>
+              Name
+            </th>
+            <th>
+              HSN CODE
+            </th>
+            <th>
+              Description
+            </th>      
+            <th>
+              Chapter Code
+            </th>
+             <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let t of tabaledata1; let i=index; let k=index;">
+          <tr [ngClass]="{'deletecolor':t.deleted}">
+            <!-- <th scope="row">{{tabaledata1.indexOf(t)+1}}</th> -->
+            <td>{{t.name}}</td>
+            <td>{{t.hsncode}}</td>
+            <td>{{t.description}}</td>    
+            <td>{{t.chaptercode}}</td>
+            <td>
+              <a [ngClass]="{'unselectable':t.disabled}" (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;"
+                data-target=".delete" class="btn btn-sm btn-success">
+                <i class="fas fa-eye"></i>
+              </a>
+              <a [ngClass]="{'unselectable':t.disabled}" (click)="editHSN(t)" style="margin-right: 5px; margin-left: 5px;"
+                data-toggle="modal" data-target=".uom_add" class="btn btn-sm btn-success">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a (click)="delete_popup(t)" data-toggle="modal" style="margin-right: 5px; margin-left: 5px;" data-target=".delete"
+                class="btn btn-sm btn-danger">
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+          <tr>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tabaledata1?.length == 0">
+          <tr>
+            <td colspan="4" class="no-data-available">No data!</td>
+          </tr>
+        <tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Register Form POPUP-->
+<div class="modal fade uom_add" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Welcome </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="col-md-12 custome">
+        <div class="card text-center">
+          <div class="card-header  card bg-primary text-white">
+            Add HSN Codes
+          </div>
+          <div class="card-body">
+            <form method="POST" [formGroup]="UOM_FORM">
+              <div class="example-container">
+                <div class="row">
+
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Name " formControlName="name" required>
+                      <mat-error *ngIf="UOM_FORM.controls['name'].hasError('required')">Name is required</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Chapter Code" formControlName="chapterCode" required>
+                      <mat-error *ngIf="UOM_FORM.controls['chapterCode'].hasError('required')">Name is Chapter Code
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Chapter Description" formControlName="chapterDescription" required>
+                      <mat-error *ngIf="!UOM_FORM.controls['chapterDescription'].valid || !UOM_FORM.controls['chapterDescription'].pristine">
+                        <!-- <mat-error *ngIf="UOM_FORM.controls['chapterDescription'].hasError('minlength')">chapterDescription should be 10digit</mat-error> -->
+                        <mat-error *ngIf="UOM_FORM.controls['chapterDescription'].hasError('required')">chapterDescription
+                          is required</mat-error>
+                        <!-- <mat-error *ngIf="UOM_FORM.controls['uqcCode'].hasError('pattern')">Mobile numberr should be only numbers</mat-error> -->
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="HeadingCode" type="text" formControlName="headingCode" required>
+                      <mat-error *ngIf="UOM_FORM.controls['headingCode'].hasError('required')"> Description is required</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="HeadingDescription" type="text" formControlName="headingDescription"
+                        required>
+                      <mat-error *ngIf="UOM_FORM.controls['headingDescription'].hasError('required')"> Heading
+                        Description
+                        is required</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Hsncode" type="text" formControlName="hsncode" required>
+                      <mat-error *ngIf="UOM_FORM.controls['hsncode'].hasError('required')"> Hsncode is required</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <input matInput placeholder="Description" formControlName="description" required>
+                      <mat-error *ngIf="UOM_FORM.controls['description'].hasError('required')">Description is required
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <select class="form-control" formControlName="unitOfMeasure">
+                      <option *ngFor="let item of itemList" value="{{item._id}}">{{item.name}} </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-7">
+                    <button type="submit" (click)="addHsn()" data-dismiss="modal" class="float-right btn btn-primary"
+                      [disabled]="!UOM_FORM.valid">Register</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Register Form POPUP-->
+<div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="disable_Data">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Disable</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are Sure you want to Disable this User ...
+          <span style="color: red">{{disable_Data.email }}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" (click)="disable(disable_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete POPUP-->
+
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="delete_Data">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are Sure you want to Delete this User ...
+          <span style="color: red">{{delete_Data.name }}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-->Reset popup -->
+<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" *ngIf="reset_Data">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are Sure you want to Reset this User's Password ...
+          <span style="color: red">{{reset_Data.email }}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" (click)="resetPassword(reset_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-->Reset popup End -->

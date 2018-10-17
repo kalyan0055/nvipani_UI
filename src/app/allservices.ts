@@ -6,6 +6,7 @@ import { ProfileService } from './profile/profile.service';
 import { AuthenticationService } from "./common/authentication.service";
 import { Injector } from '@angular/core'
 import { AutologoutService } from './common/autologout.service';
+import { HsnService } from './hsncodes/hsn.service';
  
 export abstract class AllServices {
   public UIS: UisettingsService;
@@ -15,7 +16,7 @@ export abstract class AllServices {
   public PS: ProfileService;
   public AUTOLOGOUT: AutologoutService;
   public Auth: AuthenticationService;
-
+  public HSN:HsnService;
   constructor(injector: Injector) {
     this.UIS = injector.get(UisettingsService);
     this.US = injector.get(UsersService);
@@ -23,5 +24,6 @@ export abstract class AllServices {
     this.PS = injector.get(ProfileService);
     this.Auth = injector.get(AuthenticationService);
     this.AUTOLOGOUT = injector.get(AutologoutService);
+    this.HSN = injector.get(HsnService);
   }
 }

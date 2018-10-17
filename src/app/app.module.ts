@@ -10,14 +10,13 @@ import { UserIdleModule } from 'angular-user-idle';
 import { HttpModule } from '@angular/http';
 import { ToastrModule } from 'ngx-toastr';
 import { UploadService } from './common/upload.service';
-import { DataTablesModule } from 'angular-datatables';
-import { TooltipModule } from 'primeng/tooltip';
 import { AuthGuard } from './common/auth.guard';
 import { LoaderModule } from './common/loader.module';
 import { CommonCommonModule } from './common/common.module';
 import { ToastrService } from 'ngx-toastr';
 import { ProfileComponent } from './profile/profile.component';
- 
+import { DatatablesPipe } from './common/datatables.pipe';
+
 
 // import { UiSettingsComponent } from './ui-settings/ui-settings.component';
 
@@ -26,9 +25,8 @@ import { ProfileComponent } from './profile/profile.component';
   declarations: [
     AppComponent,
     UserloginComponent,
-  
-    ProfileComponent,
-     
+      ProfileComponent,
+      DatatablesPipe
     // UiSettingsComponent
   ],
   imports: [
@@ -40,9 +38,10 @@ import { ProfileComponent } from './profile/profile.component';
     totRoutes,
     LoaderModule,   //FOR COMPONENT LOADING
     CommonCommonModule, // FOR COMMON MODULES IMPORTED FROM ANGULAR, THIRD PARTIES
+    
   ],
   providers: [UploadService, AuthGuard,ToastrService],
- 
+ schemas:[CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -11,6 +11,7 @@ import { ResetpasswordComponent } from './resetpassword.component';
     CommonCommonModule,
   ],
   exports:[CommonCommonModule],
-  declarations: [ResetpasswordComponent]
+    declarations: [ResetpasswordComponent]
 })
 export class ResetpasswordModule { }
+ 

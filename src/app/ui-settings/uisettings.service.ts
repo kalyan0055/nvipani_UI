@@ -22,9 +22,7 @@ export class UisettingsService {
   }
 
   getUI_Settings_ajax(dataparameters){
-    console.log(dataparameters);
-    
-    let body = dataparameters;
+     let body = dataparameters;
     return this.US.callApi(Url.API.GET_UI_Settings_ajax,'post',body);
   }
 

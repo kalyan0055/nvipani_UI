@@ -1,22 +1,12 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy, Injector, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ViewChild, Injector, Inject } from '@angular/core';
 import {
-  FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
-  Validators, AbstractControl, ValidatorFn
+  FormGroup, FormBuilder,
 } from '@angular/forms';
-//import { Router, Routes } from "@angular/router";
-import { ToastrService } from 'ngx-toastr';
-
-
-
-import swal from 'sweetalert2';
-// declare var swal:any;
-
-
-
 import { Subject } from 'rxjs';
 import * as jquery from 'jquery';
 import * as _ from 'underscore';
 import { AllServices } from '../allservices';
+import { DataTableDirective } from 'angular-datatables';
 
 declare var $: any;
 
@@ -45,13 +35,13 @@ export class UiSettingsComponent extends AllServices implements OnInit {
   persons = [];
   dtTrigger: Subject<any> = new Subject();
   pagelength;
-  tabaleData: any = [];
-  test;
+  @ViewChild(DataTableDirective)
+  datatableElement: DataTableDirective;
   // addmore:FormGroup;
   constructor(public fb: FormBuilder, injector: Injector) {
     super(injector);
     this.usertype = localStorage.getItem('usertype');
-   
+
   }
 
   ngOnInit() {
@@ -115,45 +105,53 @@ export class UiSettingsComponent extends AllServices implements OnInit {
     // this.initlink();
   }
 
-// initlink(){
-//   return this.fb.group({
-//     donation:[],
-//     sum:[]
-//   })
-// }
-// addlink(){
-//   const control = <FormArray>this.addmore.controls['addmorefields']
-//   control.push(this.initlink())
-// }
-// delete_addmore(i){
-//   const control = < FormArray > this.addmore.controls['addmorefields'];
-//   control.removeAt(i);
-// }
-// formdata:any;
-// tt=[];
-// save(){
-//   this.formdata = this.addmore.value;
-//   this.tt.push(this.formdata);
-//   console.log(this.formdata);
-// }
-// updateform(){
-//   console.log(this.tt);
-//   console.log(this.tt[0].addmorefields);
-  
-  
-//  this.addmore.patchValue({addmorefields:this.tt[0].addmorefields});
-// }
+  // initlink(){
+  //   return this.fb.group({
+  //     donation:[],
+  //     sum:[]
+  //   })
+  // }
+  // addlink(){
+  //   const control = <FormArray>this.addmore.controls['addmorefields']
+  //   control.push(this.initlink())
+  // }
+  // delete_addmore(i){
+  //   const control = < FormArray > this.addmore.controls['addmorefields'];
+  //   control.removeAt(i);
+  // }
+  // formdata:any;
+  // tt=[];
+  // save(){
+  //   this.formdata = this.addmore.value;
+  //   this.tt.push(this.formdata);
+  //   console.log(this.formdata);
+  // }
+  // updateform(){
+  //   console.log(this.tt);
+  //   console.log(this.tt[0].addmorefields);
+
+
+  //  this.addmore.patchValue({addmorefields:this.tt[0].addmorefields});
+  // }
 
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-  
+
+  relaodTable(): void {
+    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.draw();
+    });
+  }
   resetdata() {
+    this.relaodTable();
     this.ui_settings.reset();
     this.delete_Data = null;
     this.update_data = null;
+    this.getUI_Settings();
   }
+
   saveSettings() {
     let obj = {};
     obj = Object.assign({}, this.ui_settings.value)
@@ -200,5 +198,28 @@ export class UiSettingsComponent extends AllServices implements OnInit {
     //  this.toasterMessages(type, msg);
     // this.getSettings();
     // this.US.getUI_Settings();
+  }
+
+
+  getUI_Settings() {
+    this.US.getUI_Settings().subscribe((res) => {
+      console.log(res.data);
+      
+      let data = res.data.filter(item => item.deleted === false);
+      let s = _.where(data, { ui_table: "USERS" });
+      if (s.length > 0) {
+        let t = s[0]['records_per_page'];
+        var array = JSON.parse("[" + t + "]");
+        // this.datatable = [];
+        this.US.datatable = [];
+        for (let i = 0; i < array.length; i++) {
+          const element = array[i];
+          // this.datatable.push(element)
+          this.US.datatable.push(element)
+        }
+        // localStorage.setItem('datatable', JSON.stringify(this.datatable));
+      }
+    })
+
   }
 }
