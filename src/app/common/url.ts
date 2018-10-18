@@ -59,5 +59,8 @@ export class Url {
         SAVE_RECORDS_PER_PAGE :environment.url + 'settings_new',
         GET_UI_Settings:environment.url + 'settings_new',
         GET_UI_Settings_ajax:environment.url + 'settings_list',
+
+        //SAVE ACTIVITY
+        SAVE_ACTIVITY : environment.url +'saveActivity',
 }   
 }

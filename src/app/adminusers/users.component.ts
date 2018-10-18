@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy,ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ViewChild, Injector } from '@angular/core';
 import {
   FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
   Validators, AbstractControl, ValidatorFn
@@ -45,7 +45,6 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   hide = true;
   nvipani = false;
   update_status = false;
-  normal_form = true;
   test;
   emailerror = false;
   loading: boolean;
@@ -57,13 +56,6 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   tabledata2: any;
   //Table Data end
 
-  //Table Sorting
-  public filterQuery = '';
-  public rowsOnPage = 5;
-  public sortBy = '';
-  public sortOrder = 'desc';
-  public rowsOnPageSet = [5, 10, 20, 40, 60, 80, 100]
-  //Table Sorting End
 
   //For POP UPS DATA
   delete_Data;
@@ -72,63 +64,33 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   usertype;
   type: string = null;
 
-
-  //For POP UPS DATA
-
   //FAB BUTTONS 
   fabButtons = [
     {
       icon: 'create',
       edit: (param) => { this.edit_visible(param) },
       tooltip: "Delete User"
-    },
-    {
-      icon: 'delete_outline',
-      edit: (param, type) => { this.delete_popup(param, type) },
-      tooltip: "Delete User"
-    },
-    {
-      icon: 'person_add_disabled',
-      edit: (param, type) => { this.disable_popup((param), type) },
-      tooltip: "Disable User",
-    },
-    {
-      icon: 'person',
-      edit: (param, type) => { this.disable_popup((param), type) },
-      tooltip: "Enable User",
-    },
-    {
-      icon: 'lightbulb_outline',
-      edit: (param) => { this.edit_visible(param) },
-      tooltip: "Delete User",
-    },
-    {
-      icon: 'lock',
-      edit: (param) => { this.edit_visible(param) },
-      tooltip: "Delete User",
     }
   ];
   buttons = [];
   fabTogglerState = 'inactive';
   //FAB Buttons end
   dtOptions: DataTables.Settings = {};
-  persons = [];
+
   dtTrigger: Subject<any> = new Subject();
   pagelength;
 
-  filterQuery1: number;
 
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
- 
+
   constructor(public fb: FormBuilder, injector: Injector) {
     super(injector);
     this.usertype = localStorage.getItem('usertype');
-    console.log(this.US.datatable, 'from service');
-    console.log(this.pagelength, 'page length');
-
+    // console.log(this.US.datatable, 'from service');
+    // console.log(this.pagelength, 'page length');
     this.pagelength = this.US.datatable;
-    console.log(this.pagelength, 'page length');
+    // console.log(this.pagelength, 'page length');
     // this.AUTOLOGOUT.initListener();
     // this.s = localStorage.getItem('datatable');
     // console.log(this.usertype,'datatable');
@@ -140,14 +102,13 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     //     this.pagelength.push(element)
     //   }
     // }
-     
+
   }
 
 
 
   ngOnInit() {
     console.log('this shoudl not exeuted');
-
     this.US.userlogin = false;
     this.loginForm1 = this.fb.group({
       image: ['']
@@ -208,6 +169,8 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       ],
 
     };
+ 
+     this.saveActiivty('List',null);
   }
 
   ngOnDestroy(): void {
@@ -258,7 +221,6 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   updatePrfile() {
     let body = {}
     body = Object.assign({}, this.profile.value, { username: this.updated_by });
-    console.log(body);
     this.loading1 = true;
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
@@ -290,6 +252,8 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       // this.loading1= true;
       if (res.data == 'Register Request') {
         this.swal_Alert();
+      }else if(res.data == 'Register Request'){
+        this.toastr.error(res.message, 'Error!');
       } else {
         this.nvi_onSubmit();
       }
@@ -321,16 +285,16 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     body = Object.assign({}, this.REG_FORM1.value, { issendotp: true, issendemail: true });
     this.loading1 = true;
     this.US.regViaemail(body).subscribe((res) => {
-      // this.loading1= true;
       if (res.status) {
         this.loading1 = false;
         this.toastr.success('Registration Requst Sent to -' + `${this.REG_FORM1.value.username}`, 'Thank you!');
-        this.reloadTable()
+        this.reloadTable();
+        let data={name:this.REG_FORM1.value.username,target:res.user._id}
+        this.saveActiivty('Add',data);
         this.nvipani = false;
       } else {
         this.loading1 = false;
         this.toastr.error(res.message, 'Error!');
-
       }
     })
   }
@@ -444,6 +408,31 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         break;
     }
     (type === 'allusers') ? this.tabaledata = this.tabledata : this.tabaledata = this.tabaledata.filter(item => item.userType === type);
+  }
+
+  saveActiivty(type:string,value: any = '') {
+    let data={};
+    
+    switch (type) {
+      case 'List':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('List','Users',               null),eventType:'List',eventTargetType:'User'});
+      break;
+
+      case 'Add':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('Add',`NewUser - ${value.name}`,null),eventType:'Add',eventTargetType:'User',target:value.target});
+      break;
+
+      case 'Edit':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('List','Users',               null),eventType:'List',eventTargetType:'User'});
+      break;
+      default:
+        break;
+    }
+ 
+    this.CS.saveActivity(data).subscribe((res)=>{
+      if(res.status){
+        console.log('List view log saved');
+      }else{
+        console.log('Unable to save log');
+      }
+    })
   }
 
 }

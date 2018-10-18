@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   usertype;
   public datatable = [];
   @Output() selectedpage=new EventEmitter();
-  constructor(public US:UserserviceService,private CS:CommonService, public router:Router,public USS:UsersService) {
+  constructor(public US:UserserviceService,public CS:CommonService, public router:Router,public USS:UsersService) {
   
    }
   
@@ -29,14 +29,23 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.US.userlogin = false;
-
-    
-    localStorage.removeItem('name');
-    localStorage.removeItem('email');
-    localStorage.removeItem('token');
+   
+    this.saveActivity();
+    localStorage.clear();
     this.router.navigate(['login']);
   }
 
+  saveActivity(){
+    let data={};
+    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('LogOut',null,null),eventTargetType:'User',lastUpdatedUser:null})
+      this.CS.saveActivity(data).subscribe((res)=>{
+        if(res.status){
+          console.log('User logOUT activity saved');
+        }else{
+          console.log('User logOut activity saving failed');
+        }
+      })
+  }
  
   sideclick(value){
     console.log(value);
@@ -60,12 +69,9 @@ export class HeaderComponent implements OnInit {
          const element = array[i];
          this.datatable.push(element)
          this.USS.datatable.push(element)  
-       }
-       
+       }  
         localStorage.setItem('datatable', JSON.stringify(this.datatable));
      }
-     
-
     })
  }
 }
