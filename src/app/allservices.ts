@@ -8,7 +8,7 @@ import { Injector } from '@angular/core'
 import { AutologoutService } from './common/autologout.service';
 import { HsnService } from './hsncodes/hsn.service';
 import { CommonService } from './common/common.service';
-
+ 
 export abstract class AllServices {
   public UIS: UisettingsService;
   public US: UsersService;

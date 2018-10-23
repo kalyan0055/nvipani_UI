@@ -7,7 +7,7 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { UsersComponent } from '../adminusers/users.component';
 import { UiSettingsComponent } from '../ui-settings/ui-settings.component';
 import { HsncodesComponent } from '../hsncodes/hsncodes.component';
-
+import { ProfileComponent } from '../profile/profile.component';
 @NgModule({
   imports: [
     CommonCommonModule,
@@ -20,6 +20,7 @@ import { HsncodesComponent } from '../hsncodes/hsncodes.component';
     UsersComponent,
     UiSettingsComponent,
     HsncodesComponent,
+    ProfileComponent
     ],
   exports: [
     HeaderComponent,
@@ -29,6 +30,7 @@ import { HsncodesComponent } from '../hsncodes/hsncodes.component';
     UiSettingsComponent,
     CommonCommonModule,
     HsncodesComponent,
+    
     
   ]
 })

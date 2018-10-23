@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, AfterViewInit,EventEmitter, Injector } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, } from "@angular/forms";
 import { UserserviceService } from "../adminusers/userservice.service";
 import { ProfileService } from 'src/app/profile/profile.service';
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/common/upload.service';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
+import { AllServices } from '../allservices';
 
 
 @Component({
@@ -12,7 +14,7 @@ import { environment } from '../../environments/environment';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent  extends AllServices implements OnInit {
   profile: FormGroup;
   profile_img: FormGroup;
   pview = true;
@@ -21,12 +23,14 @@ export class ProfileComponent implements OnInit {
   url = environment.url;
   profileImageURL: string;
   email: any;
-  constructor(private fb: FormBuilder, public UPLOAD: UploadService, public US: UserserviceService, public PS: ProfileService, private toastr: ToastrService) {
+  @Output() selectedpage=new EventEmitter();
+ 
+  constructor(private fb: FormBuilder, public injector:Injector,public Router:Router) {
+    super(injector);
     this.userdata = JSON.parse(localStorage.getItem('userInfo'))
     this.profileImageURL = localStorage.getItem('profileImageURL');
     this.email = localStorage.getItem('email');
   }
-
   ngOnInit() {
     this.profile = this.fb.group({
       firstName: [''],
@@ -80,7 +84,7 @@ export class ProfileComponent implements OnInit {
   } 
 
   fileupload() {
-    this.UPLOAD.makeFileRequest('http://192.168.0.113:8082/users/profilePicture', this.files).subscribe(
+    this.UploadService.makeFileRequest(this.url+'users/profilePicture', this.files).subscribe(
       (Res) => {
         let data = JSON.parse(Res);
         localStorage.setItem('profileImageURL', `modules/users/img/profile/uploads/${data.path}`);
@@ -91,5 +95,10 @@ export class ProfileComponent implements OnInit {
   }
   fileupload_reset(){
     this.imagepriview='';
+  }
+
+  selected($event){
+  this.CS.selectd_page = $event;
+  this.Router.navigate(['dashboard'])
   }
 }

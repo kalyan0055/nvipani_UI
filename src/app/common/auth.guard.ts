@@ -13,9 +13,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (localStorage.getItem('name')) {
-      // logged in so return true
-      console.log('uaas');
-      
+      // logged in so return true     
       return true;
     }
 

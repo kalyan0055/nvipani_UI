@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   headername;
   usertype;
   public datatable = [];
-  @Output() selectedpage=new EventEmitter();
+  @Output() selected_page=new EventEmitter();
   constructor(public US:UserserviceService,public CS:CommonService, public router:Router,public USS:UsersService) {
   
    }
@@ -21,8 +21,8 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     this.getUI_Settings();
-    console.log(this.US.userdata);
-    console.log(this.US.userdata.username);
+    // console.log(this.US.userdata);
+    // console.log(this.US.userdata.username);
     this.usertype = localStorage.getItem('usertype');
     this.headername = localStorage.getItem('name').substr(0, localStorage.getItem('name').length - 12)
   }
@@ -47,18 +47,14 @@ export class HeaderComponent implements OnInit {
       })
   }
  
-  sideclick(value){
-    console.log(value);
-    this.CS.selectd_page = value;
-    this.selectedpage.emit(value);
-    this.router.navigate(['profile']);
+  profile(){
+     this.CS.selectd_page = 'profile';
+     this.router.navigate(['dashboard']);   
   }
 
   getUI_Settings(){
     this.USS.getUI_Settings().subscribe((res) => {
      let data = res.data.filter(item => item.deleted === false);
-     console.log(data,'at headers');
-     
      let s = _.where(data, { ui_table: "USERS" });
      if(s.length > 0){
        let t = s[0]['records_per_page'];

@@ -135,6 +135,11 @@ export class UsersService {
     return this.callApi(Url.API.DELETE_USER + '/' + _id, 'delete', body)
   }
 
+  get_User(_id) {
+    let body = {}
+    return this.callApi(Url.API.GET_USER + '/' + _id, 'get', body)
+  }
+
   restore(_id) {
     let body = {}
     return this.callApi(Url.API.ACTIVATE_USER + '/' + _id, 'delete', body)
@@ -202,7 +207,7 @@ export class UsersService {
 
 
   callApi(url: string, method: string, body: Object): Observable<any> {
-    console.log(`Http call - url: ${url}, body: ${JSON.stringify(body)}`);
+    console.log(`Http call - url: ${url} + body - ${JSON.stringify(body)}`);
 
     const headers = new Headers({ 'Content-Type': 'application/json' });
     headers.append('Accept', 'application/json');

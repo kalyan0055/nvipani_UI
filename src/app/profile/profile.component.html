@@ -1,11 +1,12 @@
-<div class="wrapper">
-  <app-sidenav style="background: #43425d;"></app-sidenav>
-  <div id="content">
-  <app-header></app-header>
+ 
 
 <!-- <div class="row">
   <app-sidenav style="background-color: #bcdefb;"></app-sidenav> -->
   <!--div class="col-md-10 main"-->
+  <div class="wrapper">
+    <app-sidenav style="background: #43425d;" (selectedpage)="selected($event)"></app-sidenav>
+    <div id="content">
+        <app-header></app-header>
   <div class="Ipage-content">
     <div class="IC-box">
        
@@ -193,7 +194,7 @@
       </div>
     </div>
   </div>
-  </div>
-  </div>  
+    </div>
+    </div>
   <!-- </div>
 </div> -->

@@ -14,7 +14,7 @@ import { AuthGuard } from './common/auth.guard';
 import { LoaderModule } from './common/loader.module';
 import { CommonCommonModule } from './common/common.module';
 import { ToastrService } from 'ngx-toastr';
-import { ProfileComponent } from './profile/profile.component';
+
 import { DatatablesPipe } from './common/datatables.pipe';
 
 
@@ -25,7 +25,6 @@ import { DatatablesPipe } from './common/datatables.pipe';
   declarations: [
     AppComponent,
     UserloginComponent,
-      ProfileComponent,
       DatatablesPipe
     // UiSettingsComponent
   ],

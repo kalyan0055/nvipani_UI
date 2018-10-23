@@ -71,8 +71,7 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
     this.router.navigate(['userlogin'])
   }
  
-  onSubmit() {
-    console.log(this.registrationFormGroup.value.passwordFormGroup);
+  onSubmit() { 
     let body = {
       username: this.username,
       password: this.registrationFormGroup.value.passwordFormGroup.password,
@@ -83,7 +82,6 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
     this.loading1 = true;
     this.Auth.confirmRegistration(body).subscribe((res) => {
       if (res.status) {
-        console.log(res, 'tttttttttttttt');
         this.loading1 = false;
         let type 
         this.toaster.success('Admin/User Account Activated Successfully', 'Success');
@@ -97,10 +95,7 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
 
   length=0;
   test($event) {
-console.log($event.target.value);
-console.log($event.target.value.length);
-
-    this.length = $event.target.value.length;
+     this.length = $event.target.value.length;
   }
 
 

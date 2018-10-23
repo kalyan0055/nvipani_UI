@@ -15,13 +15,10 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit() {
     this.usertype = localStorage.getItem('usertype');
-       
   }
 
   sideclick(value){
-    console.log(value);
-    this.selectedpage.emit(value);
-    
+    this.selectedpage.emit(value);  
   }
 
   sidebarchage(type:string){

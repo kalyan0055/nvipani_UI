@@ -157,7 +157,6 @@ export class HsncodesComponent extends AllServices implements OnInit {
   // }
 
   addHsn(){
-    console.log(this.UOM_FORM.value);
     if(this.hsnUpdateId!=''){
       this.UpdateHsn()
     }else{
@@ -175,7 +174,6 @@ export class HsncodesComponent extends AllServices implements OnInit {
   }
 
   editHSN(t){
-    console.log(t);
     this.hsnUpdateId= t._id
     this.UOM_FORM.patchValue(t)
   }
@@ -196,8 +194,7 @@ export class HsncodesComponent extends AllServices implements OnInit {
   delete_Data;
   delete(t) {
     this.HSN.delete_HSN(t._id).subscribe((res) => {
-      console.log(res.data);
-      if (res.status) {
+       if (res.status) {
         this.toastr.error('Successfully Deleted!', 'Thank you!');
         this.delete_Data='';
       } else {
@@ -206,8 +203,7 @@ export class HsncodesComponent extends AllServices implements OnInit {
     });
   }
   delete_popup(t) {
-    console.log(t);
-    this.delete_Data = t;
+     this.delete_Data = t;
   }
    
 }

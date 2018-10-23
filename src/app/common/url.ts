@@ -11,6 +11,7 @@ export class Url {
         
         newUsersist : environment.url+'users/newuserslist',
         DELETE_USER :environment.url +'users/deleteuser',
+        GET_USER : environment.url +'users/getUser',
         ACTIVATE_USER:environment.url +'users/restoreeuser',
         FILE_UPLOAD : environment.url + 'fileupload',
         USER_INFO : environment.url + 'authentication/userinfo',

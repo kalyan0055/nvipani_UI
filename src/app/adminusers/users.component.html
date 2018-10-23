@@ -2,41 +2,40 @@
   <app-sidenav style="background: #43425d;"></app-sidenav>
   <div id="content">
     <app-header></app-header> -->
-    <div id="loading" *ngIf="loading1">
-      <!-- <img  src="ssets/utility_images/spinner.gif" alt="Loading..." /> -->
-      <i id="loading-image" class="fa fa-spinner fa-spin fa-2x"></i>
-    </div>
-    <div class="Ipage-content">
-      <div class="IC-box">
-        <div class="ICB-Headbar no-gutters row d-flex align-items-center">
-          <div class="col-9"><img src="assets/utility_images/user.png" style="padding-right: 10px;"> Users</div>
-          <!-- <div class="col-3 "></div> -->
+<div id="loading" *ngIf="loading1">
+  <!-- <img  src="ssets/utility_images/spinner.gif" alt="Loading..." /> -->
+  <i id="loading-image" class="fa fa-spinner fa-spin fa-2x"></i>
+</div>
+<div class="Ipage-content">
+  <div class="IC-box">
+    <div class="ICB-Headbar no-gutters row d-flex align-items-center">
+      <div class="col-9"><img src="assets/utility_images/user.png" style="padding-right: 10px;"> Users</div>
+      <!-- <div class="col-3 "></div> -->
 
 
-          <!-- <div class="col-4  ICB-SearchBar">
+      <!-- <div class="col-4  ICB-SearchBar">
          <img src="assets/utility_images/search2.png">
         <input class="" placeholder="Search by any table elements" type="text" [(ngModel)]="filterQuery" autocomplete="off" name="filter">
      </div> -->
-          <div class="col-3 text-right">
-            <button (click)="reset_form()" tooltipPosition="top" pTooltip="Add User" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
-              class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".newuser" data-backdrop="static"
-              data-keyboard="false">
-              <i class="fas fa-user"></i> Add
-            </button>
-            <div class="btn-group" *ngIf="usertype !='User' ">
+      <div class="col-3 text-right">
+        <button (click)="reset_form()" tooltipPosition="top" pTooltip="Add User" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
+          class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".newuser" data-backdrop="static"
+          data-keyboard="false">
+          <i class="fas fa-user"></i> Add
+        </button>
+        <div class="btn-group" *ngIf="usertype !='User' ">
 
-              <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                {{selected_type}}
-              </button>
+          <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{selected_type}}
+          </button>
 
-              <div class="dropdown-menu">
-                <a class="dropdown-item" (click)="filterUsers('allusers')">All Users</a>
-                <a class="dropdown-item" *ngIf="usertype !='Adminuser' " (click)="filterUsers('Adminuser')">Admins</a>
-                <a class="dropdown-item" (click)="filterUsers('User')">Users</a>
-              </div>
-            </div>
-            <!--div class="btn-group">
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="filterUsers('allusers')">All Users</a>
+            <a class="dropdown-item" *ngIf="usertype !='Adminuser' " (click)="filterUsers('Adminuser')">Admins</a>
+            <a class="dropdown-item" (click)="filterUsers('User')">Users</a>
+          </div>
+        </div>
+        <!--div class="btn-group">
                 <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Last 30 days
                 </button>
@@ -52,82 +51,84 @@
                   <a class="dropdown-item" href="#">Action</a>
                 </div>
               </div-->
-          </div>
-        </div>
-        <br />
-        <div class="table-responsive">
-          <table datatable [dtOptions]="dtOptions" class="row-border hover">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>E-Mail</th>
-                <th>Mobile</th>
-                <th>Status</th>
-                <th>Options</th>
-              </tr>
-            </thead>
-            <tbody *ngIf="tabaledata?.length != 0 ">
-              <tr *ngFor="let t of tabaledata" [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}">
-                <td>{{ t.displayName }}</td>
-                <td>{{ t.email }}</td>
-                <td>{{ t.mobile }}</td>
-                <td>{{ t.userType }}</td>
-                <td valign="middle">
-                  <div id="button">
-                    <a href=""><img src="assets/utility_images/more-icon.png"> </a>
-
-                    <div id="two" [ngClass]="{'nomargin':t.deleted}">
-
-                      <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User"
-                        mat-mini-fab class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'disable')"
-                        data-toggle="modal" data-target=".disable"> <i class="material-icons">person</i>
-                      </button>
-                      <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User"
-                        mat-mini-fab class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'enable')"
-                        data-toggle="modal" data-target=".disable">
-                        <i class="material-icons">person_add_disabled</i>
-                      </button>
-                      <button *ngIf="t.resetPasswordToken && !t.deleted" mat-mini-fab class="text fab-secondary gridActionbtngap"
-                        color="secondary" tooltipPosition="top" pTooltip="Reset Password Request Sent" [ngClass]="{'unselectable':t.disabled}"
-                        (click)="reset_popup(t)" data-toggle="modal" data-target=".reset">
-                        <i class="material-icons">lock</i>
-                      </button>
-                      <button *ngIf="!t.resetPasswordToken && !t.deleted" mat-mini-fab class="fab-secondary gridActionbtngap"
-                        color="secondary" tooltipPosition="top" pTooltip="Reset Password Request" (click)="reset_popup(t)"
-                        data-toggle="modal" data-target=".reset">
-                        <i class="material-icons">lock_open</i>
-                      </button>
-                      <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User" (click)="delete_popup(t,'Delete')"
-                        data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary gridActionbtngap"
-                        color="secondary">
-                        <i class="material-icons">delete_outline</i>
-                      </button>
-                      <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User" (click)="delete_popup(t,'Restore')"
-                        data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
-                        <i class="material-icons">replay</i>
-                      </button>
-                      <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)"
-                        data-toggle="modal" data-target=".edit" mat-mini-fab class="fab-secondary gridActionbtngap"
-                        color="secondary">
-                        <i class="material-icons">create</i>
-                      </button>
-                    </div>
-
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-            <tbody *ngIf="tabaledata?.length == 0">
-              <tr>
-                <td colspan="3" class="no-data-available">No data!</td>
-              </tr>
-            <tbody>
-          </table>
-        </div>
       </div>
     </div>
-  
-  <!-- </div>
+    <br />
+    <div class="table-responsive">
+      <table datatable [dtOptions]="dtOptions" class="row-border hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Mobile</th>
+            <th>Status</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="tabaledata?.length != 0 ">
+          <tr *ngFor="let t of tabaledata" [ngClass]="{'deletecolor':t.deleted,'inactive':t.disabled}">
+            <td>{{ t.displayName }}</td>
+            <td>{{ t.email }}</td>
+            <td>{{ t.mobile }}</td>
+            <td>{{ t.userType }}</td>
+            <td valign="middle">
+              <div id="button">
+                <a href=""><img src="assets/utility_images/more-icon.png"> </a>
+
+                <div id="two" [ngClass]="{'nomargin':t.deleted}">
+                  <button *ngIf="t.resetPasswordToken && !t.deleted && t.status == 'Registered' " mat-mini-fab class="text fab-secondary gridActionbtngap"
+                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request Sent" [ngClass]="{'unselectable':t.disabled}"
+                    (click)="reset_popup(t)" data-toggle="modal" data-target=".reset">
+                    <i class="material-icons">lock</i>
+                  </button>
+                  <button *ngIf="!t.resetPasswordToken && !t.deleted && t.status == 'Registered' " mat-mini-fab class="fab-secondary gridActionbtngap"
+                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request" (click)="reset_popup(t)"
+                    data-toggle="modal" data-target=".reset">
+                    <i class="material-icons">lock_open</i>
+                  </button>
+                  
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)"
+                    data-toggle="modal" data-target=".edit" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
+                    <i class="material-icons">create</i>
+                  </button>
+
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User" (click)="delete_popup(t,'Delete')"
+                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
+                    <i class="material-icons">delete_outline</i>
+                  </button>
+                  <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User" (click)="delete_popup(t,'Restore')"
+                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
+                    <i class="material-icons">replay</i>
+                  </button>
+
+                  <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User" mat-mini-fab
+                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'disable')"
+                    data-toggle="modal" data-target=".disable"> <i class="material-icons">person</i>
+                  </button>
+                  <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User" mat-mini-fab
+                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'enable')"
+                    data-toggle="modal" data-target=".disable">
+                    <i class="material-icons">person_add_disabled</i>
+                  </button>
+
+                  
+                </div>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tabaledata?.length == 0">
+          <tr>
+            <td colspan="3" class="no-data-available">No data!</td>
+          </tr>
+        <tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- </div>
 </div> -->
 
 <div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

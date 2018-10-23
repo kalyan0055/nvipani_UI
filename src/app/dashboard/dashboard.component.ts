@@ -1,26 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector } from '@angular/core';
 import { CommonService } from '../common/common.service';
 import { UsersService } from '../users.service';
 import * as _ from 'underscore';
 import { UserIdleService } from 'angular-user-idle';
 import { Router } from '@angular/router';
+import { AllServices } from '../allservices';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends AllServices implements OnInit {
   datatable = [];
   count = 0;
-  selected_page = 'dashbaord';
   public dateOfHarvest: Date = null;
-  constructor(public userIdle: UserIdleService, public CS: CommonService, public US: UsersService,
-    public router: Router) {
+  constructor(public userIdle: UserIdleService, public injector:Injector, public router: Router) {
+     super(injector)
     console.log('tets');
   }
 
   ngOnInit() {
-    console.log(this.selected_page, 'initial data');
+    
     this.getUI_Settings();
     console.log('NoOnInit called ', this.count++);
     // this.userIdle.startWatching();
@@ -57,8 +57,7 @@ export class DashboardComponent implements OnInit {
 
   getUI_Settings() {
     this.US.getUI_Settings().subscribe((res) => {
-      console.log(res.data);
-      
+ 
       let data = res.data.filter(item => item.deleted === false);
       let s = _.where(data, { ui_table: "USERS" });
       if (s.length > 0) {
@@ -95,10 +94,6 @@ export class DashboardComponent implements OnInit {
   }
 
   selected(value) {
-    console.log('after click', value);
-    this.selected_page = value;
-    console.log(this.selected_page);
-
-    // this.router.navigate(['value'])
+       this.CS.selectd_page = value;
   }
 }

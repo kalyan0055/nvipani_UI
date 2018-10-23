@@ -7,7 +7,7 @@ import { UsersService } from '../users.service';
 })
 
 export class CommonService {
-  selectd_page = null;
+  selectd_page = 'users';
   activityObj = {
     name: null,
     target: null,
@@ -18,10 +18,31 @@ export class CommonService {
 
   defaultObj = {
     name: null,
-    target: null,
     eventType: 'List',
     eventTargetType: null,
     user: localStorage.getItem('userid'),
+    target: {
+      message: null,
+      order: null,
+      offer: null,
+      user:  null,
+      contact: null,
+      group: null,
+      itemMaster: null,
+      importFile: null,
+      inventory: null,
+      paymentTerm: null,
+      productBrand: null,
+      category: null,
+      report: null,
+      stockMaster: null,
+      taxGroup: null,
+      unitOfMeasure:   null,
+      businessUnit: null,
+      notification: null,
+      todo: null
+    },
+
   }
 
 
@@ -33,30 +54,31 @@ export class CommonService {
     return this.US.callApi(Url.API.SAVE_ACTIVITY, 'post', value)
   }
 
-  getMessage(key, type,data) {
+  getMessage(key, type, data) {
     let date = new Date();
+    let msg = null
     switch (key) {
-
-      case 'LogOut': return ('User Logged out at' + date);
+      case 'LogOut': msg = 'User Logged out at' + date;
         break;
-      case 'Login': return ('User Logged in at' + date);
+      case 'Login': msg = 'User Logged in at' + date;
         break;
-      case 'Add': return ('Added - ' + type);
+      case 'Add': msg = 'Added - ' + type;
         break;
-      case 'Edit': return ('Updated - ' + type);
+      case 'Edit': msg = 'Updated - ' + type;
         break;
-      case 'Delete': return (type + 'Deleted');
+      case 'Delete': msg = type + 'Deleted';
         break;
-      case 'Disable': return type + 'Added - ';
+      case 'Disable': msg = type + 'Added - ';
         break;
-      case 'View': return 'Viewed about - ' + type;
+      case 'View': msg = 'Viewed about - ' + type;
         break;
-      case 'List': return 'Viewed  - ' + type + ' List Page';
+      case 'List': msg = 'Viewed  - ' + type + ' List Page';
         break;
-      case 'Search': return `Searched for ${data}` + type;
+      case 'Search': msg = `Searched in ${type} table - ` + data;
         break;
       default:
         break;
     }
+    return msg;
   }
 }

@@ -3,13 +3,6 @@ import {
   FormArray, Form, FormControlName, FormGroup, FormBuilder, NG_VALIDATORS, Validator,
   Validators, AbstractControl, ValidatorFn
 } from '@angular/forms';
-//import { Router, Routes } from "@angular/router";
-
-// import { ToastrService } from 'ngx-toastr';
-// import { UploadService } from 'src/app/common/upload.service';
-// import { UsersService } from '../users.service';
-// import { ProfileService } from '../profile/profile.service';
-//import { UisettingsService } from '../ui-settings/uisettings.service';
 import { speedDialFabAnimations } from './fab-animations';
 import swal from 'sweetalert2';
 // declare var swal:any;
@@ -20,6 +13,7 @@ import { DataTableDirective } from 'angular-datatables';
 declare var $: any;
 
 import { AllServices } from '../allservices';
+import { isObject } from 'util';
 
 
 class DataTablesResponse {
@@ -63,7 +57,8 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   reset_Data;
   usertype;
   type: string = null;
-
+  s_buttons: boolean = false;
+  selected_type = 'All Users';
   //FAB BUTTONS 
   fabButtons = [
     {
@@ -79,7 +74,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
   dtTrigger: Subject<any> = new Subject();
   pagelength;
-
+  updated_by: any = '';
 
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
@@ -108,7 +103,6 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    console.log('this shoudl not exeuted');
     this.US.userlogin = false;
     this.loginForm1 = this.fb.group({
       image: ['']
@@ -150,10 +144,14 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
             element['options'] = '-';
             filteredData.push(element)
           });
+          console.log( dataTablesParameters,'searchhhh');
+          
+          if (dataTablesParameters.search.value) {
+            this.saveActiivty('Search',dataTablesParameters.search.value)
+          }
           this.tabaledata = filteredData
           this.tabledata1 = filteredData
           this.tabledata2 = filteredData;
-          // this.tabaledata = resp.data.filter(item=>item.username != 'info@nvipani.com');
           this.tabledata = filteredData;
           callback({
             recordsTotal: this.tabaledata.length,
@@ -165,12 +163,11 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       },
 
       columns: [{ title: 'Name', name: 'displayName', data: 'displayName' }, { title: 'E-Mail', name: 'email', data: 'email' }, { title: 'Mobile', name: 'mobile', data: 'mobile' },
-      { title: 'Status', name: 'status', data: 'status' }, { title: 'Options', name: 'options', data: 'options', orderable: false }
-      ],
+      { title: 'Status', name: 'status', data: 'status' }, { title: 'Options', name: 'options', data: 'options', orderable: false }],
 
     };
- 
-     this.saveActiivty('List',null);
+
+    this.saveActiivty('List', null);
   }
 
   ngOnDestroy(): void {
@@ -211,24 +208,50 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         '';
   }
 
-  updated_by: any = '';
+  updateId:string=null;
+  oldData:any=null
   edit_visible(value: any = '') {
-    this.update_status = true;
-    this.profile.patchValue(value)
+    console.log(value);
+    this.updateId = value._id;
+    
     this.updated_by = value.username
+    this.US.get_User(this.updateId).subscribe((res)=>{
+      if(res.status){
+        this.profile.patchValue(res.userData);
+        this.update_status = true;
+        this.oldData = res.userData;
+      }else{
+        this.profile.reset();
+        this.update_status = false;
+        this.oldData = null;
+        this.updateId = null;
+      } 
+    })
+    
   }
 
   updatePrfile() {
     let body = {}
-    body = Object.assign({}, this.profile.value, { username: this.updated_by });
+    body = Object.assign({}, this.profile.value, { username: this.updated_by,_id:this.updateId });
     this.loading1 = true;
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
         this.loading1 = false;
         this.update_status = !this.update_status;
+        this.profile.reset();
         this.reloadTable()
-        this.updated_by = '';
-        this.toastr.success('User Updated Successfully', 'success')
+        this.updated_by = null;
+        this.update_status = false;
+        this.updateId = null
+        // if (obj && isObject(obj)) {
+        //   _.map(obj, function (value, key) {
+        //     effectedData.push({ column: key, newData: value, oldData: '' })
+        //   });
+        //   data['effectedData'] = effectedData
+        // }
+        let effectedData = {column:null,newData:body,oldData:this.oldData}
+        this.toastr.success('User Updated Successfully', 'success');
+        this.saveActiivty('Edit',effectedData)
       } else {
         this.loading1 = false;
         this.toastr.warning('Error in Updating User', 'error')
@@ -252,7 +275,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       // this.loading1= true;
       if (res.data == 'Register Request') {
         this.swal_Alert();
-      }else if(res.data == 'Register Request'){
+      } else if (res.data == 'Register Request') {
         this.toastr.error(res.message, 'Error!');
       } else {
         this.nvi_onSubmit();
@@ -289,8 +312,16 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         this.loading1 = false;
         this.toastr.success('Registration Requst Sent to -' + `${this.REG_FORM1.value.username}`, 'Thank you!');
         this.reloadTable();
-        let data={name:this.REG_FORM1.value.username,target:res.user._id}
-        this.saveActiivty('Add',data);
+        let data = { name: this.REG_FORM1.value.username, target: res.user._id };
+        let obj = _.pick(res.user, 'username', 'email', 'status', 'emailOtp')
+        let effectedData = [];
+        if (obj && isObject(obj)) {
+          _.map(obj, function (value, key) {
+            effectedData.push({ column: key, newData: value, oldData: '' })
+          });
+          data['effectedData'] = effectedData
+        }
+        this.saveActiivty('Add', data);
         this.nvipani = false;
       } else {
         this.loading1 = false;
@@ -302,7 +333,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   delete(t) {
     this.loading1 = true;
     this.US.delete_User(t._id).subscribe((res) => {
-      console.log(res.data);
+       
       if (res.status) {
         this.loading1 = false;
         this.toastr.error('Successfully Deleted!', 'Thank you!');
@@ -317,7 +348,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
   del_pop_msg: string = '';
   delete_popup(t, type) {
-    console.log(t, 'delete');
+   
     this.del_pop_msg = type;
     document.getElementById('delete').click();
     this.delete_Data = t;
@@ -326,8 +357,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   restore(t) {
     this.loading1 = true;
     this.US.restore(t._id).subscribe((res) => {
-      console.log(res.data);
-      if (res.status) {
+       if (res.status) {
         this.loading1 = false;
         this.toastr.success('Successfully Restored!', 'Thank you!');
         this.reloadTable()
@@ -344,8 +374,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     this.loading1 = true;
     if (this.type != null) {
       this.US.disable_User(t._id, this.type).subscribe((res) => {
-        console.log(res.data);
-        if (res.status) {
+          if (res.status) {
           this.loading1 = false;
           this.toastr.success('Successfully ' + `${this.type}d`, 'Thank you!');
           this.reloadTable()
@@ -381,6 +410,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         if (res.status) {
           this.loading1 = false;
           this.toastr.success('Password Reset Requst Sent to -' + `${this.reset_pwd_Data['username']}`, 'Thank you!');
+          this.reloadTable();
           this.reset_pwd_Data = {};
         } else {
           this.loading1 = false;
@@ -392,11 +422,9 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     }
   }
 
-  s_buttons: boolean = false;
-  selected_type = 'All Users';
+  
   filterUsers(type: string) {
-    console.log(type);
-    (type === 'Adminuser') ? this.selected_type = 'Admins' : (type === 'User') ? this.selected_type = 'Users' : this.selected_type = 'All Users';
+      (type === 'Adminuser') ? this.selected_type = 'Admins' : (type === 'User') ? this.selected_type = 'Users' : this.selected_type = 'All Users';
     switch (type) {
       case 'allusers': this.tabaledata = this.tabledata;
         break;
@@ -410,26 +438,34 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     (type === 'allusers') ? this.tabaledata = this.tabledata : this.tabaledata = this.tabaledata.filter(item => item.userType === type);
   }
 
-  saveActiivty(type:string,value: any = '') {
-    let data={};
-    
+  saveActiivty(type: string, value: any = '') {
+    let data = {};
+console.log(value,'value');
+
     switch (type) {
-      case 'List':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('List','Users',               null),eventType:'List',eventTargetType:'User'});
+      case 'List': data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('List', 'Users', null), eventTargetType: 'User' });
+        break;
+
+      case 'Add': data = Object.assign({}, this.CS.defaultObj, {
+        name: this.CS.getMessage('Add', `NewUser - ${value.name}`, null), eventType: 'Add', eventTargetType: 'User', target: value.target, effectedData: value.effectedData
+      });
       break;
 
-      case 'Add':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('Add',`NewUser - ${value.name}`,null),eventType:'Add',eventTargetType:'User',target:value.target});
-      break;
+      case 'Edit': let obj={target:{user:value.oldData._id}}
+      data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Edit', 'Users', null), eventType: 'Edit', eventTargetType: 'User',effectedData: value },obj);
+        break;
 
-      case 'Edit':  data = Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('List','Users',               null),eventType:'List',eventTargetType:'User'});
-      break;
+        
+      case 'Search': data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Search', 'Users', value), eventType: 'Search', eventTargetType: 'User' });
+        break;
       default:
         break;
     }
- 
-    this.CS.saveActivity(data).subscribe((res)=>{
-      if(res.status){
+
+    this.CS.saveActivity(data).subscribe((res) => {
+      if (res.status) {
         console.log('List view log saved');
-      }else{
+      } else {
         console.log('Unable to save log');
       }
     })
