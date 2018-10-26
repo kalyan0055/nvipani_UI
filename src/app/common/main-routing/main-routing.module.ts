@@ -24,7 +24,9 @@ const routes: Routes = [
     path: 'hsn', loadChildren: 'src/app/hsncodes/hsncodes.module#HsncodesModule', canActivate: [AuthGuard]
   },
 
-  { path: 'confirm/:id1/:id2/:id3', loadChildren: 'src/app/email-auth/email-auth.module#EmailAuthModule' },
+  { path: 'confirm', loadChildren: 'src/app/email-auth/email-auth.module#EmailAuthModule' },
+  // { path: 'confirm/:id1/:id2/:id3', loadChildren: 'src/app/email-auth/email-auth.module#EmailAuthModule' },
+  
   { path: 'reset/:id1/:id2/:id3', loadChildren: 'src/app/resetpassword/resetpassword.module#ResetpasswordModule' },
 
   { path: '', redirectTo: '', pathMatch: 'full' },

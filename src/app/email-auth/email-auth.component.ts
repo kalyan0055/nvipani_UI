@@ -10,6 +10,8 @@ import { UserserviceService } from "../adminusers/userservice.service";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from "@angular/common";
 import { RegistrationValidator } from '../common/password-validator';
+import {Buffer} from 'buffer';
+
 @Component({
   selector: 'app-email-auth',
   templateUrl: './email-auth.component.html',
@@ -46,24 +48,33 @@ export class EmailAuthComponent implements OnInit, OnDestroy {
   }
 
   username: any;
-  otp:number;
+  otp:any;
   ngOnInit() {
     localStorage.clear();
-    this.sub = this.route.params.subscribe(params => {
-      this.id = params.id1// (+) converts string 'id' to a number
-      this.username =params.id2;
-      this.otp = params.id3
-      this.location.replaceState('authd');
+    // this.location.replaceState('authd');
+    //this.sub = this.route.params.subscribe(params => {
+      // this.id = params.id1// (+) converts string 'id' to a number
+      // this.username =params.id2;
+      // this.otp = params.id3
+      // this.location.replaceState('authd');
       // Decode the String
      
       // In a real app: dispatch action to load the details here.
-    });
+   // });
+    let b = this.route.snapshot.queryParamMap.get('refcode');
+    this.otp = this.route.snapshot.queryParamMap.get('otp');
+    console.log(this.username, this.otp);
+    this.username =  new Buffer(b, 'base64').toString("ascii");
 
+    console.log('Decrypt code: ' ,this.username);
+    
+    
+  
   
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    // this.sub.unsubscribe();
   }
 
 

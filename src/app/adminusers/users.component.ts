@@ -97,7 +97,10 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     //     this.pagelength.push(element)
     //   }
     // }
+ 
 
+   
+    
   }
 
 
@@ -265,7 +268,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   onSearchChange(value) {
     var trigger = value,
       regexp = new RegExp('@nvipani.com');
-    this.test = regexp.test(trigger);
+    this.test = regexp.test(trigger);  
     if (!this.REG_FORM1.valid || !this.test) {
       this.emailerror = true;
     } else {
@@ -336,7 +339,6 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   delete(t) {
     this.loading1 = true;
     console.log(t);
-
     this.US.delete_User(t._id).subscribe((res) => {
       if (res.status) {
         this.loading1 = false;
