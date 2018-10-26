@@ -18,30 +18,10 @@ export class CommonService {
 
   defaultObj = {
     name: null,
-    eventType: 'List',
+    eventType: 'Accessed',
     eventTargetType: null,
     user: localStorage.getItem('userid'),
-    target: {
-      message: null,
-      order: null,
-      offer: null,
-      user:  null,
-      contact: null,
-      group: null,
-      itemMaster: null,
-      importFile: null,
-      inventory: null,
-      paymentTerm: null,
-      productBrand: null,
-      category: null,
-      report: null,
-      stockMaster: null,
-      taxGroup: null,
-      unitOfMeasure:   null,
-      businessUnit: null,
-      notification: null,
-      todo: null
-    },
+   
 
   }
 
@@ -66,13 +46,13 @@ export class CommonService {
         break;
       case 'Edit': msg = 'Updated - ' + type;
         break;
-      case 'Delete': msg = type + 'Deleted';
+      case 'Delete': msg = data.username + '-' + ' is Deleted';
         break;
-      case 'Disable': msg = type + 'Added - ';
+      case 'Disable': msg = data.username + '-' + ' is Disabled';
         break;
-      case 'View': msg = 'Viewed about - ' + type;
+      case 'View': msg = 'Viewed recored  - ' + data.username  + ' in '+ type;
         break;
-      case 'List': msg = 'Viewed  - ' + type + ' List Page';
+      case 'Accessed': msg = 'Accessed  - ' + type + ' List Page';
         break;
       case 'Search': msg = `Searched in ${type} table - ` + data;
         break;

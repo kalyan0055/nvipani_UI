@@ -78,7 +78,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
-
+  userData:any=null;
   constructor(public fb: FormBuilder, injector: Injector) {
     super(injector);
     this.usertype = localStorage.getItem('usertype');
@@ -144,10 +144,13 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
             element['options'] = '-';
             filteredData.push(element)
           });
-          console.log( dataTablesParameters,'searchhhh');
-          
+          console.log(dataTablesParameters, 'searchhhh');
+
           if (dataTablesParameters.search.value) {
-            this.saveActiivty('Search',dataTablesParameters.search.value)
+            $("input[type='search']").on("keyup", function () {
+              alert(dataTablesParameters.search.value);
+          });
+            // this.saveActiivty('Search', dataTablesParameters.search.value)
           }
           this.tabaledata = filteredData
           this.tabledata1 = filteredData
@@ -163,16 +166,17 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       },
 
       columns: [{ title: 'Name', name: 'displayName', data: 'displayName' }, { title: 'E-Mail', name: 'email', data: 'email' }, { title: 'Mobile', name: 'mobile', data: 'mobile' },
-      { title: 'Status', name: 'status', data: 'status' }, { title: 'Options', name: 'options', data: 'options', orderable: false }],
+      { title: 'UserType', name: 'userType', data: 'userType' }, { title: 'Options', name: 'options', data: 'options', orderable: false }],
 
     };
 
-    this.saveActiivty('List', null);
+    this.saveActiivty('Accessed', null);
   }
-
+  
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+    
   }
 
   reloadTable(): void {
@@ -208,31 +212,30 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         '';
   }
 
-  updateId:string=null;
-  oldData:any=null
+  updateId: string = null;
+  oldData: any = null
   edit_visible(value: any = '') {
     console.log(value);
     this.updateId = value._id;
-    
     this.updated_by = value.username
-    this.US.get_User(this.updateId).subscribe((res)=>{
-      if(res.status){
+    this.US.get_User(this.updateId).subscribe((res) => {
+      if (res.status) {
         this.profile.patchValue(res.userData);
         this.update_status = true;
         this.oldData = res.userData;
-      }else{
+      } else {
         this.profile.reset();
         this.update_status = false;
         this.oldData = null;
         this.updateId = null;
-      } 
+      }
     })
-    
+
   }
 
   updatePrfile() {
     let body = {}
-    body = Object.assign({}, this.profile.value, { username: this.updated_by,_id:this.updateId });
+    body = Object.assign({}, this.profile.value, { username: this.updated_by, _id: this.updateId });
     this.loading1 = true;
     this.PS.updateProfile(body).subscribe((res) => {
       if (res) {
@@ -249,9 +252,9 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
         //   });
         //   data['effectedData'] = effectedData
         // }
-        let effectedData = {column:null,newData:body,oldData:this.oldData}
+        let effectedData = { column: null, newData: body, oldData: this.oldData }
         this.toastr.success('User Updated Successfully', 'success');
-        this.saveActiivty('Edit',effectedData)
+        this.saveActiivty('Edit', effectedData)
       } else {
         this.loading1 = false;
         this.toastr.warning('Error in Updating User', 'error')
@@ -332,13 +335,15 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
   delete(t) {
     this.loading1 = true;
+    console.log(t);
+
     this.US.delete_User(t._id).subscribe((res) => {
-       
       if (res.status) {
         this.loading1 = false;
         this.toastr.error('Successfully Deleted!', 'Thank you!');
         this.reloadTable()
         this.delete_Data = null;
+        this.saveActiivty('Delete', t)
       } else {
         this.loading1 = false;
         this.toastr.warning(res.message, 'Error');
@@ -348,7 +353,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
   del_pop_msg: string = '';
   delete_popup(t, type) {
-   
+
     this.del_pop_msg = type;
     document.getElementById('delete').click();
     this.delete_Data = t;
@@ -357,7 +362,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   restore(t) {
     this.loading1 = true;
     this.US.restore(t._id).subscribe((res) => {
-       if (res.status) {
+      if (res.status) {
         this.loading1 = false;
         this.toastr.success('Successfully Restored!', 'Thank you!');
         this.reloadTable()
@@ -374,11 +379,12 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     this.loading1 = true;
     if (this.type != null) {
       this.US.disable_User(t._id, this.type).subscribe((res) => {
-          if (res.status) {
+        if (res.status) {
           this.loading1 = false;
           this.toastr.success('Successfully ' + `${this.type}d`, 'Thank you!');
           this.reloadTable()
-          this.disable_Data = '';
+          this.disable_Data = null;
+         this.saveActiivty('Disable',t)
         } else {
           this.loading1 = false;
           this.toastr.warning('Unable to ' + `${this.type}d`, 'Error');
@@ -422,9 +428,9 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     }
   }
 
-  
+
   filterUsers(type: string) {
-      (type === 'Adminuser') ? this.selected_type = 'Admins' : (type === 'User') ? this.selected_type = 'Users' : this.selected_type = 'All Users';
+    (type === 'Adminuser') ? this.selected_type = 'Admins' : (type === 'User') ? this.selected_type = 'Users' : this.selected_type = 'All Users';
     switch (type) {
       case 'allusers': this.tabaledata = this.tabledata;
         break;
@@ -438,33 +444,49 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     (type === 'allusers') ? this.tabaledata = this.tabledata : this.tabaledata = this.tabaledata.filter(item => item.userType === type);
   }
 
+
+  viewUser(value){
+    this.userData =value;
+    this.saveActiivty('View',value);
+  }
   saveActiivty(type: string, value: any = '') {
     let data = {};
-console.log(value,'value');
+    console.log(value, 'value');
 
     switch (type) {
-      case 'List': data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('List', 'Users', null), eventTargetType: 'User' });
+      case 'Accessed': data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Accessed', 'Users', null), eventTargetType: 'User' });
         break;
 
       case 'Add': data = Object.assign({}, this.CS.defaultObj, {
         name: this.CS.getMessage('Add', `NewUser - ${value.name}`, null), eventType: 'Add', eventTargetType: 'User', target: value.target, effectedData: value.effectedData
       });
-      break;
-
-      case 'Edit': let obj={target:{user:value.oldData._id}}
-      data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Edit', 'Users', null), eventType: 'Edit', eventTargetType: 'User',effectedData: value },obj);
         break;
 
-        
+      case 'Edit': let obj = { target: { user: value.oldData._id } }
+        data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Edit', 'Users', null), eventType: 'Edit', eventTargetType: 'User', effectedData: value }, obj);
+        break;
+
       case 'Search': data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Search', 'Users', value), eventType: 'Search', eventTargetType: 'User' });
         break;
-      default:
+
+      case 'Delete': let delobj = { target: { user: value._id } }
+        data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Delete', 'User', value), eventType: 'Delete', eventTargetType: 'User' }, delobj);
+        break;
+
+      case 'Disable': let disobj = { target: { user: value._id } }
+        data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('Disable', 'User', value), eventType: 'Disable', eventTargetType: 'User' }, disobj);
+        break;
+
+      case 'View': let viewobj = { target: { user: value._id } }
+        data = Object.assign({}, this.CS.defaultObj, { name: this.CS.getMessage('View', 'Users', value), eventType: 'View', eventTargetType: 'User' }, viewobj);
+        break;
+      default: data = {};
         break;
     }
 
     this.CS.saveActivity(data).subscribe((res) => {
       if (res.status) {
-        console.log('List view log saved');
+        console.log(`${type} log saved`);
       } else {
         console.log('Unable to save log');
       }

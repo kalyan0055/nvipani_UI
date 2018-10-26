@@ -61,7 +61,7 @@
             <th>Name</th>
             <th>E-Mail</th>
             <th>Mobile</th>
-            <th>Status</th>
+            <th>UserType</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -82,36 +82,40 @@
                     <i class="material-icons">lock</i>
                   </button>
                   <button *ngIf="!t.resetPasswordToken && !t.deleted && t.status == 'Registered' " mat-mini-fab class="fab-secondary gridActionbtngap"
-                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request" (click)="reset_popup(t)"
-                    data-toggle="modal" data-target=".reset">
+                    color="secondary" tooltipPosition="top" pTooltip="Reset Password Request" (click)="reset_popup(t)" data-toggle="modal"
+                    data-target=".reset">
                     <i class="material-icons">lock_open</i>
                   </button>
-                  
-                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)"
-                    data-toggle="modal" data-target=".edit" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
+
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Edit User" (click)="edit_visible(t)" data-toggle="modal" data-target=".edit"
+                    mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
                     <i class="material-icons">create</i>
                   </button>
 
-                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User" (click)="delete_popup(t,'Delete')"
-                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
+                  <button *ngIf="!t.deleted" tooltipPosition="top" pTooltip="Delete User" (click)="delete_popup(t,'Delete')" data-toggle="modal"
+                    data-target=".delete" mat-mini-fab class="fab-secondary gridActionbtngap" color="secondary">
                     <i class="material-icons">delete_outline</i>
                   </button>
-                  <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User" (click)="delete_popup(t,'Restore')"
-                    data-toggle="modal" data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
+                  <button *ngIf="t.deleted" tooltipPosition="top" pTooltip="Restore User" (click)="delete_popup(t,'Restore')" data-toggle="modal"
+                    data-target=".delete" mat-mini-fab class="fab-secondary" color="secondary">
                     <i class="material-icons">replay</i>
                   </button>
 
-                  <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User" mat-mini-fab
-                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'disable')"
-                    data-toggle="modal" data-target=".disable"> <i class="material-icons">person</i>
+                  <button *ngIf="!t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Disable User" mat-mini-fab class="text fab-secondary gridActionbtngap"
+                    color="secondary" (click)="disable_popup(t,'disable')" data-toggle="modal" data-target=".disable"> <i
+                      class="material-icons">person</i>
                   </button>
-                  <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User" mat-mini-fab
-                    class="text fab-secondary gridActionbtngap" color="secondary" (click)="disable_popup(t,'enable')"
-                    data-toggle="modal" data-target=".disable">
+
+                  <button *ngIf="t.disabled && !t.deleted" tooltipPosition="top" pTooltip="Enable User" mat-mini-fab class="text fab-secondary gridActionbtngap"
+                    color="secondary" (click)="disable_popup(t,'enable')" data-toggle="modal" data-target=".disable">
                     <i class="material-icons">person_add_disabled</i>
                   </button>
 
-                  
+                  <button tooltipPosition="top" pTooltip="View" mat-mini-fab class="text fab-secondary gridActionbtngap" color="secondary"
+                    (click)="viewUser(t)" data-toggle="modal" data-target=".view">
+                    <i class="material-icons">visibility</i>
+                  </button>
+
                 </div>
 
               </div>
@@ -122,7 +126,7 @@
           <tr>
             <td colspan="3" class="no-data-available">No data!</td>
           </tr>
-        <tbody>
+          <tbody>
       </table>
     </div>
   </div>
@@ -131,8 +135,7 @@
 <!-- </div>
 </div> -->
 
-<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="delete_Data">
       <div class="modal-header">
@@ -149,16 +152,14 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button *ngIf="del_pop_msg === 'Delete'" type="button" (click)="delete(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
-        <button *ngIf="del_pop_msg === 'Restore'" type="button" (click)="restore(delete_Data)" data-dismiss="modal"
-          class="btn btn-primary">Yes</button>
+        <button *ngIf="del_pop_msg === 'Restore'" type="button" (click)="restore(delete_Data)" data-dismiss="modal" class="btn btn-primary">Yes</button>
 
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade edit" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content" *ngIf="update_status">
       <div class="modal-header">
@@ -197,8 +198,7 @@
                   </div>
                   <div class="col-md-3">
                     <mat-form-field>
-                      <input matInput placeholder="mobile" minlength="10" maxlength="10" type="text" formControlName="mobile"
-                        required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46 ">
+                      <input matInput placeholder="mobile" minlength="10" maxlength="10" type="text" formControlName="mobile" required onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46 ">
                       <mat-error *ngIf="profile.controls['mobile'].hasError('required')"> Mobile is required</mat-error>
                       <!-- <mat-error *ngIf="mobile.errors.pattern"> Mobile is required</mat-error> -->
                       <mat-error *ngIf="profile.controls['mobile'].hasError('pattern')"> In Valid Mobile Number</mat-error>
@@ -209,8 +209,7 @@
                 <br>
                 <div class="row">
                   <div class="col-md-7">
-                    <button type="submit" data-dismiss="modal" (click)="updatePrfile()" class="float-right btn btn-primary"
-                      [disabled]="!profile.valid">Save</button>
+                    <button type="submit" data-dismiss="modal" (click)="updatePrfile()" class="float-right btn btn-primary" [disabled]="!profile.valid">Save</button>
                   </div>
                 </div>
               </form>
@@ -233,8 +232,7 @@
 <!-- Register Form POPUP-->
 <button id="delete" [hidden]="true" data-toggle="modal" data-target=".delete">Open Modal</button>
 
-<div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade disable" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="disable_Data">
       <div class="modal-header">
@@ -259,8 +257,7 @@
 
 <!-- Delete POPUP-->
 
-<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="delete_Data">
       <div class="modal-header">
@@ -284,8 +281,7 @@
 <!-- </div> -->
 
 <!-- Reset popup -->
-<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade reset" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" *ngIf="reset_Data">
       <div class="modal-header">
@@ -310,8 +306,7 @@
 <!-->Reset popup End -->
 
 
-<div class="modal fade newuser" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade newuser" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -352,3 +347,94 @@
     </div>
   </div>
 </div>
+
+<!--View Popup-->
+<div class="modal fade view" *ngIf="userData" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View</h5>
+        <button type="button" (click)="userData=null" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-condensed table-bordered">
+              <thead>  
+                <tr>
+                  <th colspan="2">Personal Info</th>
+                  <th colspan="2">Contact Info</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Firstname</td>
+                  <td>{{userData.firstName}}</td>
+                  <td>Email</td>
+                  <td>{{userData.email}}</td>
+                </tr>
+                <tr>
+                  <td>Middlename</td>
+                  <td>{{userData.middleName}}</td>
+                  <td>Email Verified</td>
+                  <td>{{(userData.emailVerified)?'Verified':'Not Verified'}}</td>
+                 
+                </tr>
+                <tr>
+                  <td>Lastname</td>
+                  <td>{{userData.lastName}}</td>
+                  <td>Mobile</td>
+                  <td>{{userData.mobile}}</td>
+                </tr>
+
+                <tr>
+                  <td>DisplayName</td>
+                  <td>{{userData.displayName}}</td>
+                  <td>Mobile Verified</td>
+                  <td>{{(userData.mobileVerified)?'Verified':'Not Verified'}}</td>
+                </tr>
+                
+                <tr>
+                  <td>UserType</td>
+                  <td>{{userData.userType}}</td>
+                  <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <th colspan="4">Other Info</th>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>{{userData.status}}</td>
+                    <td>Reset Password</td>
+                    <td>{{(userData?.reset_password)?'Yes':'No'}}</td>
+                </tr>
+                <tr>
+                    <td>Disabled</td>
+                    <td>{{(userData.disabled)?'Yes':'No'}}</td>
+                    <td>Deleted </td>
+                    <td>{{(userData.deleted)?'Yes':'No'}}</td>
+                </tr>
+                <tr>
+                    <td>Created Date</td> 
+                    <td>{{userData.created | date:'medium'}}</td>
+                    <td>Created By </td>
+                    <td>{{userData.created_by.username}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="userData=null" class="btn btn-secondary" data-dismiss="modal">Close </button>
+         </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Popup end-->
