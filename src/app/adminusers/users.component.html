@@ -1,7 +1,7 @@
-<!-- <div class="wrapper">
+<div class="wrapper">
   <app-sidenav style="background: #43425d;"></app-sidenav>
   <div id="content">
-    <app-header></app-header> -->
+    <app-header></app-header>
 <div id="loading" *ngIf="loading1">
   <!-- <img  src="ssets/utility_images/spinner.gif" alt="Loading..." /> -->
   <i id="loading-image" class="fa fa-spinner fa-spin fa-2x"></i>
@@ -19,7 +19,7 @@
      </div> -->
       <div class="col-3 text-right">
         <button (click)="reset_form()" tooltipPosition="top" pTooltip="Add User" *ngIf="usertype == 'Admin' || usertype == 'Adminuser'"
-          class="float-right fmat-icon-button addUserBtn" data-toggle="modal" data-target=".newuser" data-backdrop="static"
+          class="float-right btn fmat-icon-button addUserBtn" data-toggle="modal" data-target=".newuser" data-backdrop="static"
           data-keyboard="false">
           <i class="fas fa-user"></i> Add
         </button>
@@ -126,14 +126,23 @@
           <tr>
             <td colspan="3" class="no-data-available">No data!</td>
           </tr>
-          <tbody>
+        </tbody>
+              <!-- <tfoot>
+                  <tr>
+                    <th>Name</th>
+                    <th>E-Mail</th>
+                    <th>Mobile</th>
+                    <th>UserType</th>
+                    <th>Options</th>
+                  </tr>
+                </tfoot> -->
       </table>
     </div>
   </div>
 </div>
 
-<!-- </div>
-</div> -->
+</div>
+</div>
 
 <div class="modal fade delete" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
   saveActivity(){
     let data={};
-    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('LogOut',null,null),eventTargetType:'User',lastUpdatedUser:null})
+    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('LogOut',null,null),eventType:'LogOut',eventTargetType:'User',lastUpdatedUser:null})
       this.CS.saveActivity(data).subscribe((res)=>{
         if(res.status){
           console.log('User logOUT activity saved');
@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
          this.datatable.push(element)
          this.USS.datatable.push(element)  
        }  
-        localStorage.setItem('datatable', JSON.stringify(this.datatable));
+        // localStorage.setItem('datatable', JSON.stringify(this.datatable));
      }
     })
  }

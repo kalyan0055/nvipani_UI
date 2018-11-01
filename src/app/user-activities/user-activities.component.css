@@ -1,11 +1,9 @@
+ 
+
+
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
 	color: #0056b3 !important;
 	border: 1px solid #e9ecef !important;
   background-color: #e9ecef !important;
 	background: linear-gradient(to bottom, #e9ecef 0%, #e9ecef 100%) !important;
 }
-
-.cdk-global-overlay-wrapper, .cdk-overlay-container {
-    z-index: 99999 !important;
- }
- 

@@ -44,6 +44,7 @@ import { DataTableModule } from "angular-6-datatable";
 import { DataTablesModule } from 'angular-datatables';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToastrService } from 'ngx-toastr';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 @NgModule({
   imports: [
     CommonModule,
@@ -85,7 +86,7 @@ import { ToastrService } from 'ngx-toastr';
     DataTableModule,
     TooltipModule,
     DataTablesModule,
-   
+    AngularMultiSelectModule
      
   ],
   declarations: [],
@@ -128,6 +129,7 @@ import { ToastrService } from 'ngx-toastr';
     DataTableModule,
     TooltipModule,
     DataTablesModule,
+    AngularMultiSelectModule
     
   
    

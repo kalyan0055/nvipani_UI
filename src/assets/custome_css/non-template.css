@@ -28,7 +28,7 @@
   #button {
 	 
 	  position:relative !important;
-	  width:100px !important;
+	  width:120px !important;
 	  height:30px !important;
 	  line-height:27px !important;
 	  display:block !important;
@@ -95,30 +95,10 @@
 	min-width: 50px !important;
 	height: 30px !important;
 	background: #43425d !important;
-	color: white !important;
+	color: white !important;  
   }
 
-
-	.dataTables_info {
-		display: inline-block !important;
-		}
-		
-		.dataTables_paginate.paging_full_numbers {
-		display: inline-block !important;
-		float: right !important;
-		}
-		
-		table.dataTable thead .sorting,
-		table.dataTable thead .sorting_asc:after,
-		table.dataTable thead .sorting_desc,
-		table.dataTable thead .sorting_asc_disabled,
-		table.dataTable thead .sorting_desc_disabled { background: transparent; }
-		
-		.dataTables_wrapper { padding-bottom: 30px; }
-		
-		.dataTables_length { float: left; }
-		
-		.dataTables_filter label { margin-right: 5px; }
+ 
   /* User module css end */
 
   /* Set your password */
@@ -138,5 +118,32 @@
   }
  /* Set your password */
  
+
+ /* DATA TABLES CSS */ 
  
+ .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    outline: none !important;
+    background-color: #e9ecef !important;
+    background: linear-gradient(to bottom, #e9ecef 0%, #e9ecef 100%) !important;
+    box-shadow: inset 0 0 3px #e9ecef !important;
+}
+
+ 
+
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.2em .6em !important;
+ }
+
+ .dataTables_wrapper .dataTables_paginate {
+	margin-top: 4px;
+}
+
+table.dataTable tbody td {
+	padding: 5px 10px !important;
+}
  

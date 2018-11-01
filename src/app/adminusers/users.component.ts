@@ -73,18 +73,18 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
 
   dtTrigger: Subject<any> = new Subject();
-  pagelength;
+  pagelengths;
   updated_by: any = '';
 
   @ViewChild(DataTableDirective)
   datatableElement: DataTableDirective;
-  userData:any=null;
+  userData: any = null;
   constructor(public fb: FormBuilder, injector: Injector) {
     super(injector);
     this.usertype = localStorage.getItem('usertype');
     // console.log(this.US.datatable, 'from service');
     // console.log(this.pagelength, 'page length');
-    this.pagelength = this.US.datatable;
+    this.pagelengths = this.US.datatable;
     // console.log(this.pagelength, 'page length');
     // this.AUTOLOGOUT.initListener();
     // this.s = localStorage.getItem('datatable');
@@ -97,10 +97,10 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
     //     this.pagelength.push(element)
     //   }
     // }
- 
 
-   
-    
+
+
+
   }
 
 
@@ -123,21 +123,21 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
     this.dtOptions = {
       // Configure the buttons
-      pagingType: 'full_numbers',
+      pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
       processing: true,
       language: {
         paginate: {
-          first: "<<",
-          last: ">>",
-          next: ">",
-          previous: "<"
+          first: "First",
+          last: "Last",
+          next: "Next",
+          previous: "Previous"
         },
         searchPlaceholder: "Search Table Elements",
 
       },
-      lengthMenu: (this.US.datatable.length > 0) ? this.pagelength : [10, 20, 50, 100],
+      lengthMenu: (this.US.datatable.length > 0) ? this.pagelengths : [10, 20, 50, 100],
       //  lengthChange: false,
       ajax: (dataTablesParameters: any, callback) => {
         this.US.getNewUsers(dataTablesParameters).subscribe(resp => {
@@ -150,11 +150,10 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
           console.log(dataTablesParameters, 'searchhhh');
 
           if (dataTablesParameters.search.value) {
-            $("input[type='search']").on("keyup", function () {
-              alert(dataTablesParameters.search.value);
-          });
-            // this.saveActiivty('Search', dataTablesParameters.search.value)
+
+            this.saveActiivty('Search', dataTablesParameters.search.value)
           }
+          
           this.tabaledata = filteredData
           this.tabledata1 = filteredData
           this.tabledata2 = filteredData;
@@ -164,9 +163,31 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
             recordsFiltered: resp.tot_count,
             data: this.tabaledata
           });
-
+        
         });
       },
+      // initComplete: function () {
+      //   this.api().columns().every(function () {
+      //     var column = this;
+      //     console.log(column);
+          
+      //     var select = $('<select><option value=""></option></select>')
+      //       .appendTo($(column.footer()).empty())
+      //       .on('change', function () {
+      //         var val = $.fn.dataTable.util.escapeRegex(
+      //           $(this).val()
+      //         );
+
+      //         column
+      //           .search(val ? val : '', false, false)
+      //           .draw();
+      //       });
+
+      //     column.data().unique().sort().each(function (d, j) {
+      //       select.append('<option value="' + d + '">' + d + '</option>')
+      //     });
+      //   });
+      // },
 
       columns: [{ title: 'Name', name: 'displayName', data: 'displayName' }, { title: 'E-Mail', name: 'email', data: 'email' }, { title: 'Mobile', name: 'mobile', data: 'mobile' },
       { title: 'UserType', name: 'userType', data: 'userType' }, { title: 'Options', name: 'options', data: 'options', orderable: false }],
@@ -175,11 +196,11 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
 
     this.saveActiivty('Accessed', null);
   }
-  
+
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
-    
+
   }
 
   reloadTable(): void {
@@ -268,7 +289,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   onSearchChange(value) {
     var trigger = value,
       regexp = new RegExp('@nvipani.com');
-    this.test = regexp.test(trigger);  
+    this.test = regexp.test(trigger);
     if (!this.REG_FORM1.valid || !this.test) {
       this.emailerror = true;
     } else {
@@ -386,7 +407,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
           this.toastr.success('Successfully ' + `${this.type}d`, 'Thank you!');
           this.reloadTable()
           this.disable_Data = null;
-         this.saveActiivty('Disable',t)
+          this.saveActiivty('Disable', t)
         } else {
           this.loading1 = false;
           this.toastr.warning('Unable to ' + `${this.type}d`, 'Error');
@@ -447,10 +468,11 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
   }
 
 
-  viewUser(value){
-    this.userData =value;
-    this.saveActiivty('View',value);
+  viewUser(value) {
+    this.userData = value;
+    this.saveActiivty('View', value);
   }
+
   saveActiivty(type: string, value: any = '') {
     let data = {};
     console.log(value, 'value');
@@ -494,5 +516,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       }
     })
   }
-
+  selected(value) {
+    this.CS.selectd_page = value;
+  }
 }

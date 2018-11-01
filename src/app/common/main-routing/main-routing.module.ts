@@ -1,11 +1,11 @@
 import { Routes, RouterModule } from '@angular/router'; // common/login/userlogin.component
 import { UserloginComponent } from '../../login/userlogin.component';
 import { AuthGuard } from '../../common/auth.guard';
-import { UsersComponent } from '../../adminusers/users.component';
 import { ModuleWithProviders } from '@angular/core';
 import { ProfileComponent } from '../../profile/profile.component';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-
+import { UsersComponent } from 'src/app/adminusers/users.component';
+ 
 
 const routes: Routes = [
   {
@@ -14,9 +14,13 @@ const routes: Routes = [
   {
     path: 'login', component: UserloginComponent
   },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'dashboard/:users', component: DashboardComponent, canActivate: [AuthGuard] },
+   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  // { path: 'users', component: DashboardComponent, canActivate: [AuthGuard] },
+
+  { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },
   { path: 'settings', loadChildren: 'src/app/ui-settings/settings.module#SettingsModule', canActivate: [AuthGuard] },
+  { path: 'activities', loadChildren: 'src/app/user-activities/user-activities.module#UserActivitiesModule', canActivate: [AuthGuard] },
+  
   {
     path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]
   },

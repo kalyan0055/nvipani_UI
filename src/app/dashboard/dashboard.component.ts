@@ -13,6 +13,7 @@ import { AllServices } from '../allservices';
 export class DashboardComponent extends AllServices implements OnInit {
   datatable = [];
   count = 0;
+  selectd_page='dashboard';
   public dateOfHarvest: Date = null;
   constructor(public userIdle: UserIdleService, public injector:Injector, public router: Router) {
      super(injector)

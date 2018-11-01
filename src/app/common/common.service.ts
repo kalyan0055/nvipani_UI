@@ -7,7 +7,7 @@ import { UsersService } from '../users.service';
 })
 
 export class CommonService {
-  selectd_page = 'users';
+  selectd_page = 'dashboard';
   activityObj = {
     name: null,
     target: null,
@@ -21,8 +21,7 @@ export class CommonService {
     eventType: 'Accessed',
     eventTargetType: null,
     user: localStorage.getItem('userid'),
-   
-
+    
   }
 
 

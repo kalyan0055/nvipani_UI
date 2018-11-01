@@ -26,6 +26,7 @@
     "angular-datatables": "^6.0.0",
     "angular-speed-dial": "^6.2.1",
     "angular-user-idle": "^2.0.0",
+    "angular2-multiselect-dropdown": "^4.0.0",
     "buffer": "^5.2.1",
     "core-js": "^2.5.4",
     "datatables.net": "^1.10.19",

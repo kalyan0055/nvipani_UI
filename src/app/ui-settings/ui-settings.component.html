@@ -2,6 +2,10 @@
   <app-sidenav style="background: #43425d;"></app-sidenav>
   <div id="content">
     <app-header></app-header> -->
+    <div class="wrapper">
+      <app-sidenav style="background: #43425d;" (selectedpage)="selected($event)"></app-sidenav>
+      <div id="content">
+          <app-header></app-header>
     <div class="Ipage-content">
       <div class="IC-box">
         <div class="ICB-Headbar no-gutters row d-flex align-items-center">
@@ -16,7 +20,7 @@
             </button>
           </div>
         </div>
-
+        <br />
         <div class="table-responsive">
           <table datatable [dtOptions]="dtOptions1" class="display">
             <thead>
@@ -49,7 +53,8 @@
         </div>
       </div>
     </div>
- 
+    </div>
+    </div>
 
 <div class="modal fade add_settings" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">

@@ -8,7 +8,8 @@ import { Injector } from '@angular/core'
 import { AutologoutService } from './common/autologout.service';
 import { HsnService } from './hsncodes/hsn.service';
 import { CommonService } from './common/common.service';
- 
+import { UserActivitiesService } from './user-activities/user-activities.service';
+
 export abstract class AllServices {
   public UIS: UisettingsService;
   public US: UsersService;
@@ -18,7 +19,8 @@ export abstract class AllServices {
   public AUTOLOGOUT: AutologoutService;
   public Auth: AuthenticationService;
   public HSN:HsnService;
-  public CS:CommonService
+  public CS:CommonService;
+  public UAS :UserActivitiesService;
   constructor(injector: Injector) {
     this.UIS = injector.get(UisettingsService);
     this.US = injector.get(UsersService);
@@ -28,5 +30,6 @@ export abstract class AllServices {
     this.AUTOLOGOUT = injector.get(AutologoutService);
     this.HSN = injector.get(HsnService);
     this.CS = injector.get(CommonService);
+    this.UAS = injector.get(UserActivitiesService)
   }
 }

@@ -8,6 +8,8 @@ import { UsersComponent } from '../adminusers/users.component';
 import { UiSettingsComponent } from '../ui-settings/ui-settings.component';
 import { HsncodesComponent } from '../hsncodes/hsncodes.component';
 import { ProfileComponent } from '../profile/profile.component';
+import { UserActivitiesComponent } from '../user-activities/user-activities.component';
+
 @NgModule({
   imports: [
     CommonCommonModule,
@@ -20,7 +22,8 @@ import { ProfileComponent } from '../profile/profile.component';
     UsersComponent,
     UiSettingsComponent,
     HsncodesComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserActivitiesComponent
     ],
   exports: [
     HeaderComponent,
@@ -30,6 +33,7 @@ import { ProfileComponent } from '../profile/profile.component';
     UiSettingsComponent,
     CommonCommonModule,
     HsncodesComponent,
+    UserActivitiesComponent
     
     
   ]

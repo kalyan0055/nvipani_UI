@@ -22,13 +22,13 @@
       <ul class="list-unstyled components">
        
           
-          <li class="active">
+          <li [ngClass]="(this.CS.selectd_page == 'users')?'active':(this.sub == 'users')?'active':'' ">
               <!-- <a routerLink="/users"> <i class="S-icons"></i> Dashboard</a> -->
               <a (click)="sidebarchage('users')"> <i class="S-icons"></i> Dashboard</a>
 
           </li>
           
-          <li>
+          <li >
               <a (click)="sidebarchage('comingsoon')"> <i class="S-icons icon-catalog"></i> Product catalog</a>
           </li>
           <li>
@@ -46,7 +46,10 @@
           <!-- <li>
               <a (click)="sidebarchage('hsn')"> <i class="S-icons icon-offers"></i> HSN CODES</a>
           </li> -->
-          <li>
+          <li [ngClass]="(this.CS.selectd_page == 'activities')?'active':(this.sub == 'activities')?'active':''">
+            <a (click)="sidebarchage('activities')"> <i class="S-icons icon-customers"></i> User Activities</a>        
+          </li>
+          <li [ngClass]="(this.CS.selectd_page == 'settings')?'active':(this.sub == 'settings')?'active':''">
               <a (click)="sidebarchage('settings')"> <i class="S-icons icon-settings"></i> Settings</a>
               <!-- <a routerLink="/settings"> <i class="S-icons icon-settings"></i> Settings</a> -->
          

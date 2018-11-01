@@ -53,16 +53,16 @@ export class UiSettingsComponent extends AllServices implements OnInit {
 
     this.dtOptions1 = {
       // Configure the buttons
-      pagingType: 'full_numbers',
+      pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
       processing: true,
       language: {
         paginate: {
-          first: "<<",
-          last: ">>",
-          next: ">",
-          previous: "<"
+          first: "First",
+          last: "Last",
+          next: "Next",
+          previous: "Previous"
         },
         searchPlaceholder: "Search Table Elements",
 
@@ -138,7 +138,9 @@ export class UiSettingsComponent extends AllServices implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
-
+    selected(value) {
+      this.CS.selectd_page = value;
+  }
   relaodTable(): void {
     this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.draw();
@@ -217,7 +219,6 @@ export class UiSettingsComponent extends AllServices implements OnInit {
           // this.datatable.push(element)
           this.US.datatable.push(element)
         }
-        // localStorage.setItem('datatable', JSON.stringify(this.datatable));
       }
     })
 

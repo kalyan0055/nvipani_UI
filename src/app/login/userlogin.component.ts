@@ -46,7 +46,7 @@ export class UserloginComponent extends AllServices implements OnInit {
         this.US.userdata = res.data;
         this.toastr.success(msg, 'Welcome');
         this.saveActivity();
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['users']);
       }
       else {
         this.toastr.error(res.message, 'Failed...');
@@ -56,7 +56,7 @@ export class UserloginComponent extends AllServices implements OnInit {
 
   saveActivity(){
     let data={};
-    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('Login',null,null),eventTargetType:'User',lastUpdatedUser:null})
+    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('Login',null,null),eventType:'Login',eventTargetType:'User',lastUpdatedUser:null})
       this.CS.saveActivity(data).subscribe((res)=>{
         if(res.status){
           console.log('User login activity saved');

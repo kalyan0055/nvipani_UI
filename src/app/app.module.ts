@@ -18,6 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DatatablesPipe } from './common/datatables.pipe';
 
 
+// import { UserActivitiesComponent } from './user-activities/user-activities.component';
+
+
 // import { UiSettingsComponent } from './ui-settings/ui-settings.component';
 
 
@@ -37,7 +40,7 @@ import { DatatablesPipe } from './common/datatables.pipe';
     totRoutes,
     LoaderModule,   //FOR COMPONENT LOADING
     CommonCommonModule, // FOR COMMON MODULES IMPORTED FROM ANGULAR, THIRD PARTIES
-    
+     
   ],
   providers: [UploadService, AuthGuard,ToastrService],
  schemas:[CUSTOM_ELEMENTS_SCHEMA],
