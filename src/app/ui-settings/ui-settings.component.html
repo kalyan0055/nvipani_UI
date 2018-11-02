@@ -28,7 +28,7 @@
                 <th>SNo</th>
                 <th>Table Name</th>
                 <th>Records Per Page</th>
-                <th>Options</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
@@ -36,11 +36,11 @@
                 <td>{{ t.sno }}</td>
                 <td>{{ t.ui_table }}</td>
                 <td>{{ t.records_per_page }}</td>
-                <td valign="middle">
-                  <a (click)="update(t)" data-toggle="modal" data-target=".add_settings" data-backdrop="static"
-                    data-keyboard="false" class="btn btn-sm btn-info"><i class="far fa-edit"></i></a>
-                  <a (click)="delete_Data=t;" data-toggle="modal" data-target=".delete" data-backdrop="static"
-                    data-keyboard="false" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <td valign="middle" id="atocursor">
+                  <a (click)="update(t)" tooltipPosition="top" pTooltip="Edit" data-toggle="modal"  data-target=".add_settings" data-backdrop="static"
+                    data-keyboard="false" class=""><i class="far fa-edit"></i></a>&nbsp;
+                  <a (click)="delete_Data=t;" tooltipPosition="top" pTooltip="Delete" data-toggle="modal" data-target=".delete" data-backdrop="static"
+                    data-keyboard="false" class=""><i class="far fa-trash-alt" aria-hidden="true"></i></a>
                 </td>
               </tr>
             </tbody>

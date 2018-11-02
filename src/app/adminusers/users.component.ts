@@ -190,7 +190,7 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       // },
 
       columns: [{ title: 'Name', name: 'displayName', data: 'displayName' }, { title: 'E-Mail', name: 'email', data: 'email' }, { title: 'Mobile', name: 'mobile', data: 'mobile' },
-      { title: 'UserType', name: 'userType', data: 'userType' }, { title: 'Options', name: 'options', data: 'options', orderable: false }],
+      { title: 'UserType', name: 'userType', data: 'userType' }, { title: 'Actions', name: 'options', data: 'options', orderable: false }],
 
     };
 
@@ -507,7 +507,8 @@ export class UsersComponent extends AllServices implements OnInit, OnDestroy {
       default: data = {};
         break;
     }
-
+    console.log(data);
+    
     this.CS.saveActivity(data).subscribe((res) => {
       if (res.status) {
         console.log(`${type} log saved`);

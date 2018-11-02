@@ -21,5 +21,8 @@ export class UserActivitiesService {
     return this.US.callApi(Url.API.GET_ACTIVITIES_BY_TYPE,'post',body); 
   }
 
-
+  getUniqColVal(value:string){
+    let body = {type:value};
+    return this.US.callApi(Url.API.GET_UNIQ_COLS_VAL,'post',body); 
+  }
 }

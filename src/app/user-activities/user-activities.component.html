@@ -11,9 +11,9 @@
           <div class="col-3 text-right">
 
 
-            
 
-              <!-- <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+
+            <!-- <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 {{selected_type}}
               </button>
@@ -22,50 +22,78 @@
                 <a *ngFor= "let e of events " class="dropdown-item"  >{{e}}</a>
               </div> -->
 
-              <!-- <select class="form-control form-control-sm" (change)="filterUsers($event.target.value)">
+            <!-- <select class="form-control form-control-sm" (change)="filterUsers($event.target.value)">
                   <option *ngFor= "let e of events" value="{e}" >{{e}}</option>
               </select> -->
 
-              <!-- <mat-form-field>
+            <!-- <mat-form-field>
                 <mat-select multiple placeholdesdsr="Toppings"  [(ngModel)]="events" #yearSelect="ngModel" (selectionChange)="selectAll(yearSelect,$event)">
                     <mat-option *ngIf="search">ALL</mat-option>
                   <mat-option *ngFor="let e of events" disabled="{{e.disbled}}" [value]="e.event">{{e.event}}</mat-option>
                 </mat-select>
               </mat-form-field> -->
-              <!-- <p-multiSelect [options]="events" [(ngModel)]="selectedEvent" (onChange)="selectAll($event)" [panelStyle]="{minWidth:'12em'}"></p-multiSelect> -->
-              <angular2-multiselect [data]="events" [(ngModel)]="selectedItems" 
-              [settings]="dropdownSettings" 
-              (onSelect)="onItemSelect($event)" 
-              (onDeSelect)="OnItemDeSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
-              (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
-            
+            <!-- <p-multiSelect [options]="events" [(ngModel)]="selectedEvent" (onChange)="selectAll($event)" [panelStyle]="{minWidth:'12em'}"></p-multiSelect> -->
+            <angular2-multiselect [data]="events" [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+              (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+
 
           </div>
         </div>
         <br />
+        <!-- <div *ngFor="let j of [1,2,3,4,5,6,7,8,9]; let i = index;">
+          <a *ngIf="i %3 == 0"><br></a>
+          <a>{{j}} Button</a>
+
+        </div> -->
         <div class="table-responsive">
-          <table  id="example" datatable [dtOptions]="dtOptions" class="display">
+          <table id="example" datatable [dtOptions]="dtOptions" class="display">
             <thead>
               <tr>
-                  <th>Event</th>
-                  <th>Target Type</th>
-                  <th>Action</th>
-                  <th>By</th>
-                  <th>Options</th>
+                <th [hidden]="true">ID</th>
+                <th> 
+                  <a (click)="getUniqColVal('eventType')" class="dropdown dropdown-toggle" data-toggle="dropdown"> </a>
+                  <ul class="dropdown-menu ul-custom" >
+                    <li class="li-bg" *ngFor="let k of EventType;"><a (click)="getActivitiesByType('eventType',k)">{{k}}</a></li>
+                  </ul>
+                </th>
+                <th> 
+                  <a (click)="getUniqColVal('eventTargetType')" class="dropdown dropdown-toggle" data-toggle="dropdown"> </a>
+                  <ul class="dropdown-menu ul-custom">
+                    <li class="li-bg" *ngFor="let s of EventTargetType;"><a (click)="getActivitiesByType('eventTargetType',s)">{{s}}</a></li>
+                  </ul>
+                </th>
+                <th> </th>
+                <th> 
+                    <a (click)="getUniqColVal('user')" class="dropdown dropdown-toggle" data-toggle="dropdown"> </a>
+                  <ul class="dropdown-menu ul-custom" >
+                    <li class="li-bg" *ngFor="let k of UserData;"><a (click)="getActivitiesByType('user',k)">{{k.username}}</a></li>
+                  </ul>
+                </th>
+                <th> </th>
+              </tr>
+              <tr>
+                <th [hidden]="true">ID</th>
+                <th>Event   <a (click)="getUniqColVal('eventType')" class="dropdown dropdown-toggle" data-toggle="dropdown"> </a>
+                  <ul class="dropdown-menu ul-custom" >
+                    <li class="li-bg" *ngFor="let k of EventType;"><a (click)="getActivitiesByType('eventType',k)">{{k}}</a></li>
+                  </ul></th>
+                <th>Target Type</th>
+                <th><span id="test">Action</span> </th>
+                <th>By</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody *ngIf="tableData?.length != 0">
               <tr *ngFor="let t of tableData">
-
+                <td [hidden]="true">{{t._id}}</td>
                 <td>{{ t.eventType }}</td>
                 <td>{{ t.eventTargetType }}</td>
                 <td>{{ t.name }}</td>
-                <td>{{ t.user.email }}</td>
+                <td>{{ t.user.username }}</td>
                 <td valign="middle">
-              
-                  <a (click)="delete_Data=t;" data-toggle="modal" data-target=".delete" data-backdrop="static"
-                    data-keyboard="false"><i class="far fa-trash-alt"></i>
+
+                  <a (click)="delete_Data=t;" tooltipPosition="top" pTooltip="Delete" data-toggle="modal" data-target=".delete"
+                    data-backdrop="static" data-keyboard="false"><i class="far fa-trash-alt"></i>
                   </a>
                 </td>
               </tr>
@@ -75,19 +103,20 @@
                 <td colspan="4" class="no-data-available">No data!</td>
               </tr>
             </tbody>
-                <tfoot>
+            <!-- <tfoot>
                     <tr>
+                        <th [hidden]="true">ID</th>
                         <th>Event</th>
                         <th>Target Type</th>
                         <th>Action</th>
                         <th>By</th>
                         <th>Options</th>
                     </tr>
-                </tfoot>
+                </tfoot> -->
           </table>
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>

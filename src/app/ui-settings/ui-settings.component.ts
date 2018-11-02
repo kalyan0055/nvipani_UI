@@ -92,7 +92,7 @@ export class UiSettingsComponent extends AllServices implements OnInit {
         });
       },
 
-      columns: [{ title: 'SNo', name: 'sno', data: 'sno', orderable: false }, { title: 'Table Name', name: 'ui_table', data: 'ui_table' }, { title: 'Records Per Page', name: 'records_per_page', data: 'records_per_page' }, { title: 'Options', name: 'options', data: 'options', orderable: false }
+      columns: [{ title: 'SNo', name: 'sno', data: 'sno', orderable: false }, { title: 'Table Name', name: 'ui_table', data: 'ui_table' }, { title: 'Records Per Page', name: 'records_per_page', data: 'records_per_page' }, { title: 'Actions', name: 'options', data: 'options', orderable: false }
       ],
 
     };

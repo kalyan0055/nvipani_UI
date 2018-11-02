@@ -9,3 +9,6 @@
     z-index: 99999 !important;
  }
  
+ #atocursor > a{
+	 cursor: pointer;
+ }

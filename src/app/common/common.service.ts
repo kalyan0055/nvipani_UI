@@ -21,7 +21,7 @@ export class CommonService {
     eventType: 'Accessed',
     eventTargetType: null,
     user: localStorage.getItem('userid'),
-    
+     
   }
 
 

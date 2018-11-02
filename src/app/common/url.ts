@@ -65,5 +65,8 @@ export class Url {
         SAVE_ACTIVITY : environment.url +'saveActivity',
         GET_ACTIVITIES :environment.url + 'getUserActivities',
         GET_ACTIVITIES_BY_TYPE: environment.url + 'getActivitiesByType',
+        GET_UNIQ_COLS_VAL: environment.url + 'getUniqColVal',
+
+        
 }   
 }

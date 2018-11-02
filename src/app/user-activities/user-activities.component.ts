@@ -47,9 +47,9 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
     this.usertype = localStorage.getItem('usertype');
 
   }
-  dataTablesParameters:any;
+  dataTablesParameters: any;
   ngOnInit() {
-    this.dataTablesParameters= null
+    this.dataTablesParameters = null
     this.dtOptions = {
       // Configure the buttons
       pagingType: 'simple_numbers',
@@ -67,34 +67,40 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
 
       },
       lengthMenu: [10, 20, 50, 100],
-
+      "order": [[0, "desc"]],
+      "autoWidth": false,
       //  lengthChange: false,
       ajax: (dataTablesParameters: any, callback) => {
         this.UAS.getActivities(dataTablesParameters).subscribe(resp => {
           let filteredData = [];
+          let filteredData1 = [];
           let i = 1;
           resp.data.forEach(element => {
             element['options'] = '-';
-
             filteredData.push(element)
           });
           this.tableData = filteredData
           //  this.tabaleData = filteredData
-
+          resp.totData.forEach(element => {
+            element['options'] = '-';
+            filteredData1.push(element)
+          });
           callback({
             recordsTotal: this.tableData.length,
             recordsFiltered: resp.tot_count,
-            data: this.tableData
+            data: filteredData1
           });
           //  this.reloadTable1();
         });
       },
 
       // initComplete: function () {
-      //   this.api().columns([0, 1, 3]).every(function () {
+      //   console.log('test', ++this.i);
+
+      //   this.api().columns([1, 2, 4]).every(function () {
       //     var column = this;
       //     var select = $('<select><option value="">--Select--</option></select>')
-      //       .appendTo($(column.footer()).empty())
+      //       .appendTo($(column.header()).empty())
       //       .on('change', function () {
       //         var val = $.fn.dataTable.util.escapeRegex(
       //           $(this).val()
@@ -106,27 +112,27 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
       //     });
       //   });
       // },
-      drawCallback: function( settings ) {
-        // var api = this.api();
- 
-        // Output the data for the visible rows to the browser's console
-        // console.log( api.rows( {page:'current'} ).data() );
-        this.api().columns([0, 1, 3]).every(function () {
-          var column = this;
-          var select = $('<select><option value="">--Select--</option></select>')
-            .appendTo($(column.footer()).empty())
-            .on('change', function () {
-              var val = $.fn.dataTable.util.escapeRegex(
-                $(this).val()
-              );
-              column.search(val ? val : '', true, false).draw();
-            });
-          column.data().unique().sort().each(function (d, j) {
-            select.append('<option value="' + d + '">' + d + '</option>')
-          });
-        });
-    },
-      columns: [{ title: 'Event', name: 'eventType', data: 'eventType' }, { title: 'Target Type', name: 'eventTargetType', data: 'eventTargetType' }, { title: 'Action', name: 'name', data: 'name' }, { title: 'By', name: 'user.email', data: 'user.email' }, { title: 'Options', name: 'options', data: 'options', orderable: false }]
+      //   drawCallback: function( settings ) {
+      //     // var api = this.api();
+
+      //     // Output the data for the visible rows to the browser's console
+      //     // console.log( api.rows( {page:'current'} ).data() );
+      //     this.api().columns([0, 1, 3]).every(function () {
+      //       var column = this;
+      //       var select = $('<select><option value="">--Select--</option></select>')
+      //         .appendTo($(column.footer()).empty())
+      //         .on('change', function () {
+      //           var val = $.fn.dataTable.util.escapeRegex(
+      //             $(this).val()
+      //           );
+      //           column.search(val ? val : '', true, false).draw(1);
+      //         });
+      //       column.data().unique().sort().each(function (d, j) {
+      //         select.append('<option value="' + d + '">' + d + '</option>')
+      //       });
+      //     });
+      // },
+        columns: [{ name: '_id', data: '_id' }, { title: 'Event', name: 'eventType', data: 'eventType' }, { title: 'Target Type', name: 'eventTargetType', data: 'eventTargetType' }, { title: 'Action', name: 'name', data: 'name' }, { title: 'By', name: 'user.username', data: 'user.username' }, { title: 'Options', name: 'options', data: 'options', orderable: false }]
 
     };
 
@@ -138,6 +144,7 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
       enableSearchFilter: true,
       classes: "myclass custom-class"
     };
+
   }
 
   ngOnDestroy(): void {
@@ -153,46 +160,7 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
     });
 
   }
-  i: number = 0
-  reloadTable1(): void {
 
-    console.log('fired ' + this);
-
-    // var table = $('#example').DataTable();
-
-    // $("#example tfoot th").each( function ( i ) {
-    //     var select = $('<select><option value=""></option></select>')
-    //         .appendTo( $(this).empty() )
-    //         .on( 'change', function () {
-    //             table.column( i )
-    //                 .search( $(this).val() )
-    //                 .draw();
-    //         } );
-
-    //     table.column( i ).data().unique().sort().each( function ( d, j ) {
-    //         select.append( '<option value="'+d+'">'+d+'</option>' )
-    //     } );
-    // } );
-    this.dtOptions = {
-      initComplete: function () {
-        this.api().columns([0, 1, 3]).every(function () {
-          var column = this;
-          var select = $('<select><option value="">--Select--</option></select>')
-            .appendTo($(column.footer()).empty())
-            .on('change', function () {
-              var val = $.fn.dataTable.util.escapeRegex(
-                $(this).val()
-              );
-              column.search(val ? val : '', true, false).draw();
-            });
-          column.data().unique().sort().each(function (d, j) {
-            select.append('<option value="' + d + '">' + d + '</option>')
-          });
-        });
-      },
-    
-    }
-  }
   resetdata() {
     this.relaodTable();
     this.delete_Data = null;
@@ -252,10 +220,6 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
     this.search = type.value.includes('All')
 
     if (this.search) {
-      // _.map(this.events, function(item){
-      // return  item.disbled = true;
-      // })
-      // this.selectAll(select:NgModel,type.value)
     }
 
   }
@@ -263,28 +227,29 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
   onItemSelect(item: any) {
     console.log(item);
     console.log(this.selectedItems);
-    this.getActivitiesByType(this.selectedItems);
+    this.getActivitiesByType(null, this.selectedItems);
   }
   OnItemDeSelect(item: any) {
     console.log(item);
     // console.log(this.selectedItems);
+    this.getActivitiesByType(null, this.selectedItems)
   }
   onSelectAll(items: any) {
     // console.log(items);
-    this.getActivitiesByType(items);
+    this.getActivitiesByType(null, items);
   }
   onDeSelectAll(items: any) {
     console.log(items);
   }
 
-  getActivitiesByType(types) {
+  getActivitiesByType(eventType, types) {
+    console.log(eventType, 'first param');
 
-    // if(types.length ==1 ){
-    //   value = _.toArray(types) 
-    // }else{
+    if (types == 'Reset') {
+      this.relaodTable();
+    }
     let value = _.pluck(types, 'id');;
-    // }
-
+    value = _.compact(value);
     console.log(value, 'after extract values');
     if (value.length > 0) {
       this.UAS.getActivitiesByType({ types: value }).subscribe((res) => {
@@ -294,13 +259,49 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
 
         }
       })
-    } else {
+    }
+    else if (types) {
+      let prop = eventType;
+      let value = [types];
+      let obj = {};
+      obj[`${prop}`] = value;
+      this.UAS.getActivitiesByType(obj).subscribe((res) => {
+        if (res.status) {
+          this.tableData = res.data;
+        } else {
+
+        }
+      })
+    }
+    else {
       this.relaodTable();
     }
-
-
-
   }
+
+
+  EventType: any[];
+  EventTargetType: any[];
+  UserData: any[];
+  getUniqColVal(type: string) {
+    console.log(type);
+
+    this.UAS.getUniqColVal(type).subscribe((types) => {
+      switch (type) {
+        case 'eventType': this.EventType = types.data;
+          this.EventType.unshift('Reset')
+          break;
+        case 'eventTargetType': this.EventTargetType = types.data;
+          this.EventTargetType.unshift('Reset')
+          break;
+        case 'user': this.UserData = types.data;
+          this.UserData.unshift('Reset')
+          break;
+        default:
+          break;
+      }
+    })
+  }
+
 
 }
 

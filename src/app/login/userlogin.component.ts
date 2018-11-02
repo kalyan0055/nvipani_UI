@@ -52,11 +52,18 @@ export class UserloginComponent extends AllServices implements OnInit {
         this.toastr.error(res.message, 'Failed...');
       }
     })
+  };
+  defaultObj = {
+    name: null,
+    eventType: 'Accessed',
+    eventTargetType: null,
+    user: null,
+     
   }
-
   saveActivity(){
+   
     let data={};
-    data= Object.assign({},this.CS.defaultObj,{name:this.CS.getMessage('Login',null,null),eventType:'Login',eventTargetType:'User',lastUpdatedUser:null})
+    data= Object.assign({},this.defaultObj,{name:this.CS.getMessage('Login',null,null),eventType:'Login',eventTargetType:'User',user:localStorage.getItem('userid'), lastUpdatedUser:null})
       this.CS.saveActivity(data).subscribe((res)=>{
         if(res.status){
           console.log('User login activity saved');
