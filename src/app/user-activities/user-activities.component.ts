@@ -130,9 +130,10 @@ export class UserActivitiesComponent extends AllServices implements OnInit, OnDe
       //       column.data().unique().sort().each(function (d, j) {
       //         select.append('<option value="' + d + '">' + d + '</option>')
       //       });
+      
       //     });
       // },
-        columns: [{ name: '_id', data: '_id' }, { title: 'Event', name: 'eventType', data: 'eventType' }, { title: 'Target Type', name: 'eventTargetType', data: 'eventTargetType' }, { title: 'Action', name: 'name', data: 'name' }, { title: 'By', name: 'user.username', data: 'user.username' }, { title: 'Options', name: 'options', data: 'options', orderable: false }]
+        columns: [{ name: '_id', data: '_id' }, { title: 'Event <a (click)="getUniqColVal("eventType")" class="dropdown dropdown-toggle" data-toggle="dropdown"> </a><ul class="dropdown-menu ul-custom" > <li class="li-bg" *ngFor="let k of EventType;"><a (click)="getActivitiesByType("eventType",k)">{{k}}</a></li></ul>', name: 'eventType', data: 'eventType' }, { title: 'Target Type', name: 'eventTargetType', data: 'eventTargetType' }, { title: 'Action', name: 'name', data: 'name' }, { title: 'By', name: 'user.username', data: 'user.username' }, { title: 'Options', name: 'options', data: 'options', orderable: false }]
 
     };
 
